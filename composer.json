@@ -1,0 +1,13 @@
+{
+    "name": "mimmarcelo/contacontas",
+    "description": "Sistema para controle financeiro pessoal",
+    "type": "project",
+    "license": "GNU General Public License v3.0",
+    "authors": [
+        {
+            "name": "Marcelo Júnior",
+            "email": "rokermarcelo@gmail.com"
+        }
+    ],
+    "require": {}
+}
