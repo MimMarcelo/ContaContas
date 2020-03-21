@@ -9,5 +9,10 @@
             "email": "rokermarcelo@gmail.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "MimMarcelo\\ContaContas\\": "src/"
+        }
+    }
 }
