@@ -26,14 +26,14 @@ trait JSON{
         if(empty($aux)){
             return 2;
         }
-        var_dump($aux);
+        
         if(!array_key_exists($this->getClassName(), $aux)){
             return 3;
         }
 
         $valores = $aux[$this->getClassName()];
         $atributos = array_keys(get_class_vars(get_class($this)));
-        
+
         foreach($atributos as $atributo){
             $this->$atributo = $valores[$atributo];
         }

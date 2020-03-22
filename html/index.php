@@ -1,27 +1,19 @@
 <?php
 require __DIR__ . '/../vendor/autoload.php';
+require __DIR__ . '/../config/rotas.php';
 
-use MimMarcelo\ContaContas\Model\Conta;
+$pagina = strtolower($_SERVER['PATH_INFO']);
+$caminho = checarRota($pagina, $rotas);
+if($caminho === false){
+    echo "Página: " . $pagina;
+    echo "<br>Página não encontrada<pre>";
+    print_r($rotas);
+    http_response_code(404);
+    exit();
+}
 
-?>
-<!DOCTYPE html>
-<html lang="pt-BR">
-    <head>
-        <meta charset="utf-8">
-        <title>Conta Contas</title>
-    </head>
-    <body>
-        <pre>
-            <?php
-            $c = new Conta("Hello World");
-            print_r($c);
-            echo $c->toJSON();
-
-            $d = new Conta();
-            echo "Retorno: " .$d->fromJSON('{"Conta":{"nome":"CAERN","valor":39.99,"id":2}}');
-            print_r($d);
-            echo $d->toJSON();
-            ?>
-
-    </body>
-</html>
+$controllerClass = $rotas[$caminho];
+$controller = new $controllerClass();
+require __DIR__ . "/../view/cabecalho.php";
+$controller->processarRequisicao($pagina);
+require __DIR__ . "/../view/rodape.php";
