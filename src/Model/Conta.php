@@ -2,19 +2,26 @@
 
 namespace MimMarcelo\ContaContas\Model;
 
+use \MimMarcelo\ContaContas\Helper\JSON;
 /**
- *
- */
+*
+*/
 class Conta
 {
-  private $name;
+    use JSON;
 
-  function __construct($name)
-  {
-    $this->name = $name;
-  }
+    private $nome;
+    private $valor;
 
-  public function __get(string $attr){
-    return $this->$attr;
-  }
+    function __construct($nome = "", $valor = 0)
+    {
+        $this->nome = $nome;
+        $this->valor = $valor;
+    }
+
+    public function __get(string $atributo)
+    {
+        return $this->$atributo;
+    }
+
 }
