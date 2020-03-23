@@ -9,7 +9,9 @@
             "email": "rokermarcelo@gmail.com"
         }
     ],
-    "require": {},
+    "require": {
+        "doctrine/orm": "^2.7.0"
+    },
     "autoload": {
         "psr-4": {
             "MimMarcelo\\ContaContas\\": "src/"

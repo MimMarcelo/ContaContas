@@ -2,16 +2,34 @@
 
 namespace MimMarcelo\ContaContas\Model;
 
-use \MimMarcelo\ContaContas\Helper\JSON;
+use \MimMarcelo\ContaContas\Helper\{JSON, EntityManager, Validador};
+
 /**
-*
-*/
+ * @Entity
+ * @Table(name="contas")
+ */
 class Conta
 {
     use JSON;
+    use Validador;
+    use EntityManager;
 
+    /**
+     * @Id
+     * @Column(type="integer")
+     * @GeneratedValue
+     * @var type int
+     */
     private $id;
+    /**
+     * @Column(type="string")
+     * @var type string
+     */
     private $nome;
+    /**
+     * @Column(type="decimal", precision=10, scale=2)
+     * @var type double
+     */
     private $valor;
 
     function __construct($nome = "", $valor = 0, $id = 0)
@@ -26,30 +44,82 @@ class Conta
         return $this->$atributo;
     }
 
-    public static function getAll(): array
+    public function setId($id)
     {
-        $c = new Conta("COSERN", 97.45, 1);
-        $d = new Conta();
-        $d->fromJSON('{"Conta":{"nome":"CAERN","valor":39.99,"id":2}}');
-        $e = new Conta("Cabo Telecom", 142.32, 3);
-        $f = new Conta("NetFlix", 32.99, 4);
-
-        $contas = array();
-        $contas[] = $c;
-        $contas[] = $d;
-        $contas[] = $e;
-        $contas[] = $f;
-        return $contas;
+        $this->id = $id;
+        return $this;
     }
 
-    public static function getConta(int $id): ?Conta
+    public function setNome($nome)
     {
-        $contas = Conta::getAll();
-        foreach ($contas as $conta) {
-            if($conta->id === $id){
-                return $conta;
-            }
+        $this->nome = $nome;
+        return $this;
+    }
+
+    public function setValor($valor)
+    {
+        $this->valor = $valor;
+        return $this;
+    }
+
+    public static function getAll(): array
+    {
+        $entityManager = Conta::getEntityManager();
+        $repositorio = $entityManager->getRepository(Conta::class);
+
+        return $repositorio->findAll();
+    }
+
+    public static function getConta($id): ?Conta
+    {
+        if (!Conta::validarId($id)) {
+            return null;
         }
-        return null;
+
+        $entityManager = Conta::getEntityManager();
+        $repositorio = $entityManager->getRepository(Conta::class);
+        $conta = $repositorio->findOneBy(['id' => $id]);
+        if(is_null($conta)){
+            return null;
+        }
+
+        return $conta;
+    }
+
+    public static function remover($id): bool
+    {
+        if (!Conta::validarId($id)) {
+            return false;
+        }
+
+        $entityManager = Conta::getEntityManager();
+        $conta = $entityManager->getReference(Conta::class, $id);
+        if(is_null($conta)){
+            return false;
+        }
+        $entityManager->remove($conta);
+        $entityManager->flush();
+
+        return true;
+    }
+
+    public static function salvar($id, $nome, $valor): ?Conta
+    {
+        $entityManager = Conta::getEntityManager();
+        $conta = new Conta();
+        $conta->setNome($nome);
+        $conta->setValor($valor);
+
+        if (Conta::validarId($id)) {
+            $conta->setId($id);
+            $entityManager->merge($conta);
+        }
+        else{
+            $entityManager->persist($conta);
+        }
+
+        $entityManager->flush();
+
+        return $conta;
     }
 }

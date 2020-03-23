@@ -1,4 +1,4 @@
-<form action="index.html" method="post">
+<form action="/contas/salvar" method="post">
     <input type="hidden" name="iptId" value="<?= is_null($conta)?'0':$conta->id; ?>">
     <div>
         <label for="iptNome">Conta</label>
