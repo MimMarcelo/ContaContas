@@ -2,20 +2,24 @@
 
 use MimMarcelo\ContaContas\Controller\ContaController;
 
+// Lista de todos os Controllers possíveis na aplicação
 $rotas = [
-    '/contas/editar/' => ContaController::class,
-    '/contas/editar' => ContaController::class,
-    '/contas/inserir' => ContaController::class,
-    '/contas/' => ContaController::class,
-    '/contas' => ContaController::class,
+    'contas' => ContaController::class,
     '' => ContaController::class,
 ];
 
-function checarRota($pagina, $rotas){
+/**
+ * Verifica se há um Controller para o caminho especificado
+ * Se houver, retorna o nome do Controller (nome da classe)
+ * Caso negativo, retorna null
+ */
+function getController($requisicao, $rotas): ?string
+{
     foreach ($rotas as $key => $value) {
-        if(strpos($pagina, $key) === 0){
-            return $key;
+        // echo "'$caminho' == '$key'<br>";
+        if(strcmp($requisicao, $key) === 0){
+            return $rotas[$key];
         }
     }
-    return false;
+    return null;
 }
