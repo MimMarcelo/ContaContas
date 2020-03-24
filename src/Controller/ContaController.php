@@ -6,7 +6,7 @@ use MimMarcelo\ContaContas\Model\Conta;
 /**
 *
 */
-class ContaController
+class ContaController extends BaseController
 {
     public function processarRequisicao(array $requisicao): void
     {
@@ -42,30 +42,29 @@ class ContaController
             return;
         }
 
-        require __DIR__ . "/../../view/conta/form.php";
-    }
-
-    private function excluir($id): void
-    {
-        if(!Conta::remover($id)){
-            header("Location: /contas");
-            return;
-        }
-
-        echo "Conta com o ID=$id excluída!";
-
+        $dados = array(
+            'titulo' => "Editar conta: {$conta->nome}",
+            'conta' => $conta
+        );
+        $this->showView("conta/form.php", $dados);
     }
 
     private function inserir(): void
     {
-        require __DIR__ . "/../../view/conta/form.php";
+        $dados = array(
+            'titulo' => 'Criar Conta'
+        );
+        $this->showView("conta/form.php", $dados);
     }
 
     private function listar(): void
     {
         $contas = Conta::getAll();
-
-        require __DIR__ . "/../../view/conta/listar.php";
+        $dados = array(
+            'titulo' => 'Listar contas',
+            'contas' => $contas
+        );
+        $this->showView("conta/listar.php", $dados);
     }
 
     private function salvar(): void
@@ -78,6 +77,21 @@ class ContaController
             header("Location: /contas");
             return;
         }
-        echo "Conta ID={$conta->id} salva com sucesso!";
+
+        $this->listar();
+        echo "Conta '{$conta->nome}' salva com sucesso!";
     }
+
+    private function excluir($id): void
+    {
+        $conta = Conta::remover($id);
+        if(is_null($conta)){
+            header("Location: /contas");
+            return;
+        }
+
+        $this->listar();
+        echo "Conta '{$conta->nome}' removida com sucesso!";
+    }
+
 }

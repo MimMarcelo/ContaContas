@@ -6,7 +6,7 @@
         <meta name="description" content="Sistema de controle financeiro pessoal">
         <meta name="keywords" content="finanças, controle, dinheiro, sistema">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Conta Contas</title>
+        <title><?=$titulo;?></title>
     </head>
     <body>
         <header>
@@ -27,3 +27,6 @@
                 </li>
             </ul>
         </nav>
+        <main>
+            <section>
+                <h2><?=$titulo;?></h2>

@@ -8,12 +8,18 @@ require __DIR__ . '/../config/rotas.php';
  * Separa a URL em um array usando como separador o caracter '/' => explode()
  */
 $requisicao = explode("/", strtolower($_SERVER['PATH_INFO']));
-array_shift($requisicao); // Como a URL começa com '/', primeiro elemento é sempre vazio
 
-//Checa apenas o controlador $requisicao[1]
-$controllerClass = getController(array_shift($requisicao), $rotas);
-if(is_null($controllerClass)){
+// Como a URL começa com '/', primeiro elemento é sempre vazio =>
+ array_shift($requisicao);
+
+// Obtém o pedido do usuário => $requisicao[1]
+$pedido = array_shift($requisicao);
+
+// Busca pela classe controladora correspondente ao pedido do usuário
+$classeControladora = getController($pedido, $rotas);
+if(is_null($classeControladora)){
     echo "URL: " . strtolower($_SERVER['PATH_INFO']);
+    echo "<br>Pedido: $pedido<pre>";
     echo "<br>Página não encontrada<pre>";
     print_r($rotas);
     http_response_code(404);
@@ -22,9 +28,7 @@ if(is_null($controllerClass)){
 
 /*
  * Cria o controller específico e
- * inclui o conteúdo da página
+ * Processa a requisição
  */
-$controller = new $controllerClass();
-require __DIR__ . "/../view/cabecalho.php";
+$controller = new $classeControladora();
 $controller->processarRequisicao($requisicao);
-require __DIR__ . "/../view/rodape.php";

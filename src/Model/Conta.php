@@ -86,21 +86,20 @@ class Conta
         return $conta;
     }
 
-    public static function remover($id): bool
+    public static function remover($id): ?Conta
     {
-        if (!Conta::validarId($id)) {
-            return false;
+        $conta = Conta::getConta($id);
+        if(is_null($conta)){
+            return null;
         }
 
         $entityManager = Conta::getEntityManager();
-        $conta = $entityManager->getReference(Conta::class, $id);
-        if(is_null($conta)){
-            return false;
-        }
-        $entityManager->remove($conta);
+        $referencia = $entityManager->getReference(Conta::class, $id);
+        
+        $entityManager->remove($referencia);
         $entityManager->flush();
 
-        return true;
+        return $conta;
     }
 
     public static function salvar($id, $nome, $valor): ?Conta
