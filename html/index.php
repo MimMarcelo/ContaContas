@@ -26,6 +26,7 @@ if(is_null($classeControladora)){
     exit();
 }
 
+session_start();
 /*
  * Cria o controller específico e
  * Processa a requisição

@@ -38,6 +38,7 @@ class ContaController extends BaseController
     {
         $conta = Conta::getConta($id);
         if(is_null($conta)){
+            $this->setMensagemErro(array('Não foi possível carregar os dados da conta', 'Conta não encontrada'));
             header("Location: /contas");
             return;
         }
@@ -74,24 +75,27 @@ class ContaController extends BaseController
         $valor = filter_input(INPUT_POST, 'iptValor', FILTER_VALIDATE_FLOAT);
         $conta = Conta::salvar($id, $nome, $valor);
         if(is_null($conta)){
+            $this->setMensagemErro(array('Não foi possível salvar os dados da conta'));
             header("Location: /contas");
             return;
         }
 
-        $this->listar();
-        echo "Conta '{$conta->nome}' salva com sucesso!";
+        $this->setMensagemSucesso(array('Conta "' . $conta->nome . '" salva com sucesso!'));
+        // echo "Conta '{$conta->nome}' salva com sucesso!";
+        header("Location: /contas");
     }
 
     private function excluir($id): void
     {
         $conta = Conta::remover($id);
         if(is_null($conta)){
+            $this->setMensagemErro(array('Não foi possível excluir a conta', 'Conta não encontrada'));
             header("Location: /contas");
             return;
         }
 
-        $this->listar();
-        echo "Conta '{$conta->nome}' removida com sucesso!";
+        $this->setMensagemSucesso(array('Conta "' . $conta->nome . '" excluida com sucesso!'));
+        header("Location: /contas");
     }
 
 }
