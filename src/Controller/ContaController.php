@@ -53,8 +53,7 @@ class ContaController extends BaseController
     private function inserir(): void
     {
         $dados = array(
-            'titulo' => 'Criar Conta',
-            'conta' => new Conta()
+            'titulo' => 'Criar Conta'
         );
         $this->showView("conta/form.php", $dados);
     }
@@ -74,7 +73,8 @@ class ContaController extends BaseController
         $id = filter_input(INPUT_POST, 'iptId', FILTER_VALIDATE_INT);
         $nome = filter_input(INPUT_POST, 'iptNome', FILTER_SANITIZE_STRING);
         $valor = filter_input(INPUT_POST, 'iptValor', FILTER_VALIDATE_FLOAT);
-        $conta = Conta::salvar($id, $nome, $valor);
+        $receita = filter_input(INPUT_POST, 'iptReceita', FILTER_VALIDATE_BOOLEAN);
+        $conta = Conta::salvar($id, $nome, $valor, $receita);
         if(is_null($conta)){
             $this->setMensagemErro(array('Não foi possível salvar os dados da conta'));
             header("Location: /contas");

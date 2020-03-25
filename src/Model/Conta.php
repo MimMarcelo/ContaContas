@@ -22,7 +22,7 @@ class Conta
      */
     private $id;
     /**
-     * @Column(type="string")
+     * @Column(type="string", length=100)
      * @var type string
      */
     private $nome;
@@ -31,6 +31,11 @@ class Conta
      * @var type double
      */
     private $valor;
+    /**
+     * @Column(type="boolean", options={"default" : false})
+     * @var type bool
+     */
+    private $receita;
 
     public function __get(string $atributo)
     {
@@ -52,6 +57,12 @@ class Conta
     public function setValor($valor)
     {
         $this->valor = $valor;
+        return $this;
+    }
+
+    public function setReceita($receita)
+    {
+        $this->receita = $receita;
         return $this;
     }
 
@@ -95,12 +106,13 @@ class Conta
         return $conta;
     }
 
-    public static function salvar($id, $nome, $valor): ?Conta
+    public static function salvar($id, $nome, $valor, $receita): ?Conta
     {
         $entityManager = Conta::getEntityManager();
         $conta = new Conta();
         $conta->setNome($nome);
         $conta->setValor($valor);
+        $conta->setReceita($receita);
 
         if (Conta::validarId($id)) {
             $conta->setId($id);
