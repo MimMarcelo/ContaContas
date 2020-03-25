@@ -53,7 +53,8 @@ class ContaController extends BaseController
     private function inserir(): void
     {
         $dados = array(
-            'titulo' => 'Criar Conta'
+            'titulo' => 'Criar Conta',
+            'conta' => new Conta()
         );
         $this->showView("conta/form.php", $dados);
     }

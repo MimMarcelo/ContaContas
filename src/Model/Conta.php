@@ -32,13 +32,6 @@ class Conta
      */
     private $valor;
 
-    function __construct($nome = "", $valor = 0, $id = 0)
-    {
-        $this->id = $id;
-        $this->nome = $nome;
-        $this->valor = $valor;
-    }
-
     public function __get(string $atributo)
     {
         return $this->$atributo;
@@ -95,7 +88,7 @@ class Conta
 
         $entityManager = Conta::getEntityManager();
         $referencia = $entityManager->getReference(Conta::class, $id);
-        
+
         $entityManager->remove($referencia);
         $entityManager->flush();
 
