@@ -62,7 +62,7 @@ class Conta
 
     public function setReceita($receita)
     {
-        $this->receita = $receita;
+        $this->receita = is_null($receita)?false:$receita;
         return $this;
     }
 
