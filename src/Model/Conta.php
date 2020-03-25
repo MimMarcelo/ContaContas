@@ -55,12 +55,12 @@ class Conta
         return $this;
     }
 
-    public static function getAll(): array
+    public static function getAll(): Periodo
     {
         $entityManager = Conta::getEntityManager();
         $repositorio = $entityManager->getRepository(Conta::class);
 
-        return $repositorio->findAll();
+        return new Periodo($repositorio->findAll());
     }
 
     public static function getConta($id): ?Conta
