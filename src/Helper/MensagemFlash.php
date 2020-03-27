@@ -17,12 +17,12 @@ trait MensagemFlash
 
     public function setMensagemSucesso(array $mensagens): void
     {
-        $this->setMensagem('sucesso', 'Sucesso', $mensagens);
+        $this->setMensagem('success', 'Sucesso', $mensagens);
     }
 
     public function setMensagemErro(array $mensagens): void
     {
-        $this->setMensagem('erro', 'Falha', $mensagens);
+        $this->setMensagem('danger', 'Falha', $mensagens);
     }
 }
  ?>

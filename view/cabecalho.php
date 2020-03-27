@@ -7,26 +7,34 @@
         <meta name="keywords" content="finanças, controle, dinheiro, sistema">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title><?=$titulo;?></title>
+        <link rel="stylesheet" href="/css/bootstrap.min.css">
+        <link rel="stylesheet" href="/css/main.css">
     </head>
     <body>
         <header>
-            <h1>Conta Contas</h1>
-        </header>
-        <nav>
-            <ul>
-                <li>
-                    <span>Contas</span>
-                    <ul>
-                        <li>
-                            <a href="/contas">Listar</a>
-                        </li>
-                        <li>
-                            <a href="/contas/inserir">Inserir</a>
+            <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+                <a class="navbar-brand mb-0 h1" href="/contas">Navbar</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <span class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Contas
+                          </span>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/contas">Listar</a>
+                                <a class="dropdown-item" href="/contas/inserir">Inserir</a>
+                            </div>
                         </li>
                     </ul>
-                </li>
-            </ul>
-        </nav>
+                </div>
+            </nav>
+            <h1>Conta Contas</h1>
+        </header>
         <main>
             <section>
                 <h2><?=$titulo;?></h2>
