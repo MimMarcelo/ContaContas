@@ -2,13 +2,13 @@ svg{
     width: 1em;
     height: 1em;
 }
-.alert{
-    width: 90%;
-    margin: auto;
-}
 th[onclick]{
     cursor: pointer;
 }
 th[onclick]:hover{
     text-decoration: underline;
+}
+.alert{
+    width: 90%;
+    margin: auto;
 }

@@ -1,0 +1,26 @@
+.bi{
+    display: inline-block;
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+.bi::before{
+    display: inline-block;
+    content: "";
+    width: 1em;
+    height: 1em;
+}
+.bi-credit-card::before{
+    background-image: url("/img/bi/credit-card.svg");
+}
+.bi-file-earmark-plus{
+    background-image: url("/img/bi/file-earmark-plus.svg");
+}
+.bi-pencil-square{
+    background-image: url("/img/bi/pencil-square.svg");
+}
+.bi-shuffle{
+    background-image: url("/img/bi/shuffle.svg");
+}
+.bi-trash{
+    background-image: url("/img/bi/trash.svg");
+}
