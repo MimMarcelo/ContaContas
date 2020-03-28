@@ -4,7 +4,7 @@
         <label for="iptNome">Conta</label>
         <div class="input-group">
             <div class="input-group-prepend">
-                <span class="input-group-text bi bi-credit-card"></span>
+                <span class="input-group-text material-icons">sim_card</span>
             </div>
             <input type="text" class="form-control" name="iptNome" id="iptNome" value="<?= isset($conta)?$conta->nome:''; ?>">
         </div>
@@ -22,7 +22,7 @@
         <div class="form-group">
             <input type="checkbox" class="form-check-input" name="iptReceita" id="iptReceita" <?= isset($conta)?$conta->receita?'checked':'':''; ?>>
             <label class="form-check-label" for="iptReceita">
-                <span class="bi bi-file-earmark-plus"></span>
+                <span class="material-icons">add_to_queue</span>
                 Receita
             </label>
         </div>

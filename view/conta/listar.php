@@ -4,19 +4,19 @@
             <tr>
                 <th scope="col" onclick="ordenarTabela(this)">
                     #
-                    <span class="bi bi-shuffle"></span>
+                    <span class="material-icons">swap_vert</span>
                 </th>
                 <th scope="col" onclick="ordenarTabela(this)">
                     C/D
-                    <span class="bi bi-shuffle"></span>
+                    <span class="material-icons">swap_vert</span>
                 </th>
                 <th scope="col" onclick="ordenarTabela(this)">
                     Nome
-                    <span class="bi bi-shuffle"></span>
+                    <span class="material-icons">swap_vert</span>
                 </th>
                 <th scope="col" onclick="ordenarTabela(this, true)">
                     Valor
-                    <span class="bi bi-shuffle"></span>
+                    <span class="material-icons">swap_vert</span>
                 </th>
                 <th scope="col">Editar</th>
                 <th scope="col">Excluir</th>
@@ -35,12 +35,12 @@
                     <td><?= "R$ {$conta->valor}"; ?></td>
                     <td>
                         <a href="/contas/editar/<?= $conta->id; ?>" class="btn btn-warning">
-                            <span class="bi bi-pencil-square"></span>
+                            <span class="material-icons">edit</span>
                         </a>
                     </td>
                     <td>
                         <a href="/contas/excluir/<?= $conta->id; ?>" class="btn btn-danger">
-                        <span class="bi bi-trash"></span>
+                        <span class="material-icons">delete_sweep</span>
                         </a>
                     </td>
                 </tr>
