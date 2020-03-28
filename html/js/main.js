@@ -7,59 +7,70 @@ $('.alert').on('close.bs.alert', function (event) {
     }, 1010);
 });
 
-/* Funcção de ordenação de tabelas ********************************************
+/* Função de ordenação de tabelas *********************************************
 * Fonte: https://www.w3schools.com/howto/howto_js_sort_table.asp
+*
+* Foram feitas alterações do código original, pois não ordenava os números
+* precedidos de texto de forma adequada.
+* As adaptações foram feitas utilizando JQuery
+* Foi traduzida para o português
 ******************************************************************************/
-function sortTable(n) {
-    var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
-    table = $("#tabela");
-    switching = true;
-    //Set the sorting direction to ascending:
-    dir = "asc";
-    /*Make a loop that will continue until
-    no switching has been done:*/
-    while (switching) {
-        //start by saying: no switching is done:
-        switching = false;
-        rows = table.find("tbody tr");
-        /*Loop through all table rows (except the
-        first, which contains table headers):*/
-        for (i = 0; i < (rows.length - 1); i++) {
-            //start by saying there should be no switching:
-            shouldSwitch = false;
-            /*Get the two elements you want to compare,
-            one from current row and one from the next:*/
-            x = $(rows[i]).find(" *:nth-child("+(n+1)+")");
-            y = $(rows[i + 1]).find(" *:nth-child("+(n+1)+")");
-            /*check if the two rows should switch place,
-            based on the direction, asc or desc:*/
-            if (dir == "asc") {
-                if (x.text().toLowerCase() > y.text().toLowerCase()) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch= true;
+function ordenarTabela(elemento, ehNumero = false) {
+    // Variáveis que representam elementos/conteúdos da tabela
+    var linhas, linhaAtual, linhaSeguinte, conteudoAtual, conteudoSeguinte, nColuna;
+
+    // Variáveis que apoiam a funcionalidade
+    var continuarOrdenando, i, deveTrocar, ordemAscendente, contadorDeTrocas;
+
+    // Define os valores iniciais
+    nColuna = $(elemento).index() + 1; // +1, pois para os seletores CSS a primeira posição é 1
+    ordemAscendente = true;
+    continuarOrdenando = true;
+    contadorDeTrocas = 0
+
+    // Repete as verificações até que continuarOrdenando = false
+    while (continuarOrdenando) {
+        continuarOrdenando = false;
+
+        // Obtém a sequência atual de linhas
+        linhas = $(elemento).parents('table').find("tbody tr");
+
+        // Percorre todas as linhas do tbody da tabela
+        for (i = 0; i < (linhas.length - 1); i++) {
+            deveTrocar = false;
+
+            // Pega referências para a linha atual e a próxima
+            linhaAtual = $(linhas[i]).find(" *:nth-child("+nColuna+")");
+            linhaSeguinte = $(linhas[i + 1]).find(" *:nth-child("+nColuna+")");
+
+            // Pega o conteúdo da célula, distinguindo se é número ou não
+            conteudoAtual = ehNumero?Number(linhaAtual.text().match(/\d+/g).join('.')):linhaAtual.text().toLowerCase();
+            conteudoSeguinte = ehNumero?Number(linhaSeguinte.text().match(/\d+/g).join('.')):linhaSeguinte.text().toLowerCase();
+
+            // Verifica se as duas linhas devem trocar de lugar
+            if (ordemAscendente) {
+                if (conteudoAtual > conteudoSeguinte) {
+                    deveTrocar= true;
                     break;
                 }
-            } else if (dir == "desc") {
-                if (x.text().toLowerCase() < y.text().toLowerCase()) {
-                    //if so, mark as a switch and break the loop:
-                    shouldSwitch = true;
+            } else {
+                if (conteudoAtual < conteudoSeguinte) {
+                    deveTrocar = true;
                     break;
                 }
             }
         }
-        if (shouldSwitch) {
-            /*If a switch has been marked, make the switch
-            and mark that a switch has been done:*/
-            rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
-            switching = true;
-            //Each time a switch is done, increase this count by 1:
-            switchcount ++;
+
+        if (deveTrocar) {
+            // Se deveTrocar = true, então realiza a inversão de posições
+            linhas[i].parentNode.insertBefore(linhas[i + 1], linhas[i]);
+            continuarOrdenando = true;
+            contadorDeTrocas ++;
         } else {
-            /*If no switching has been done AND the direction is "asc",
-            set the direction to "desc" and run the while loop again.*/
-            if (switchcount == 0 && dir == "asc") {
-                dir = "desc";
-                switching = true;
+            // Se contadorDeTrocas = 0 e a ordem está definida como ascendente, inverter a ordenação
+            if (contadorDeTrocas == 0 && ordemAscendente) {
+                ordemAscendente = false;
+                continuarOrdenando = true;
             }
         }
     }

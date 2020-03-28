@@ -6,3 +6,9 @@ svg{
     width: 90%;
     margin: auto;
 }
+th[onclick]{
+    cursor: pointer;
+}
+th[onclick]:hover{
+    text-decoration: underline;
+}

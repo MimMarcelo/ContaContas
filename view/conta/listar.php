@@ -1,11 +1,11 @@
 <div class="table-responsive">
-    <table class="table table-hover" id="tabela">
+    <table class="table table-hover" id="tbl-contas">
         <thead class="thead-dark">
             <tr>
-                <th scope="col" onclick="sortTable(0)">#</th>
-                <th scope="col" onclick="sortTable(1)">C/D</th>
-                <th scope="col" onclick="sortTable(2)">Nome</th>
-                <th scope="col" onclick="sortTable(3)">Valor</th>
+                <th scope="col" onclick="ordenarTabela(this)">#</th>
+                <th scope="col" onclick="ordenarTabela(this)">C/D</th>
+                <th scope="col" onclick="ordenarTabela(this)">Nome</th>
+                <th scope="col" onclick="ordenarTabela(this, true)">Valor</th>
                 <th scope="col">Editar</th>
                 <th scope="col">Excluir</th>
             </tr>
