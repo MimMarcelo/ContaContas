@@ -13,7 +13,7 @@
     <body>
         <header>
             <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-                <a class="navbar-brand mb-0 h1" href="/contas">Navbar</a>
+                <a class="navbar-brand mb-0 h1" href="/contas">Conta Contas</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                     data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
                     aria-label="Toggle navigation">
