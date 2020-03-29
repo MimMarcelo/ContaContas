@@ -21,8 +21,11 @@ trait EntityManager
 
         // database configuration parameters
         $conn = array(
-            'driver' => 'pdo_sqlite',
-            'path' => __DIR__ . '/../../db.sqlite',
+            'driver' => 'pdo_mysql',
+            'user' => 'root',
+            'password' => '',
+            'dbname' => 'contacontas',
+            // 'path' => __DIR__ . '/../../db.sqlite',
         );
 
         // obtaining the entity manager
