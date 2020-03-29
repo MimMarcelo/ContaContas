@@ -1,0 +1,9 @@
+# Sobrescreve as configurações padrão do servidor Apache
+RewriteEngine on
+
+# Permite que os caminhos para arquivos .css, .js, etc continuem funcionando, sem precisar criar URLs amigáveis para os mesmos
+RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+
+# Redireciona, qualquer requisição para um arquivo que não exista para a página /index.php
+RewriteRule . /index.php [L]
