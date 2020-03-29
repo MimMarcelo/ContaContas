@@ -13,7 +13,7 @@ trait EntityManager
     public static function getEntityManager(): \Doctrine\ORM\EntityManager
     {
         // Create a simple "default" Doctrine ORM configuration for Annotations
-        $isDevMode = true;
+        $isDevMode = false;
         $proxyDir = null;
         $cache = null;
         $useSimpleAnnotationReader = true;
