@@ -7,7 +7,7 @@ require __DIR__ . '/../config/rotas.php';
  * Converte todos os caracteres para minúsculo => strtolower()
  * Separa a URL em um array usando como separador o caracter '/' => explode()
  */
- $uri = strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING));
+$uri = strtolower(filter_input(INPUT_SERVER, 'REQUEST_URI', FILTER_SANITIZE_STRING));
 $requisicao = array();
 if(isset($uri)){ //Resolve problema no Windows
     $requisicao = explode("/", $uri);

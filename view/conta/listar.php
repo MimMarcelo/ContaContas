@@ -1,5 +1,5 @@
 <div class="table-responsive">
-    <table class="table table-hover table-bordered" id="tbl-contas">
+    <table class="table table-hover table-bordered">
         <thead class="thead-dark">
             <tr>
                 <th scope="col" onclick="ordenarTabela(this)">
@@ -25,8 +25,6 @@
         <tbody>
             <?php
             $n = 0;
-            // var_dump($contas);
-            // $contas->inverterOrdem();
             foreach($contas as $conta): ?>
                 <tr>
                     <th scope="row"><?= ++$n; ?></th>

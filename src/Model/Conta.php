@@ -12,7 +12,6 @@ class Conta
 {
     use JSON;
     use Validador;
-    use EntityManager;
 
     /**
      * @Id
@@ -68,7 +67,7 @@ class Conta
 
     public static function getAll(): Periodo
     {
-        $entityManager = Conta::getEntityManager();
+        $entityManager = EntityManager::getEntityManager();
         $repositorio = $entityManager->getRepository(Conta::class);
 
         return new Periodo($repositorio->findAll());
@@ -80,9 +79,8 @@ class Conta
             return null;
         }
 
-        $entityManager = Conta::getEntityManager();
-        $repositorio = $entityManager->getRepository(Conta::class);
-        $conta = $repositorio->findOneBy(['id' => $id]);
+        $entityManager = EntityManager::getEntityManager();
+        $conta = $entityManager->find(Conta::class, $id);
         if(is_null($conta)){
             return null;
         }
@@ -97,10 +95,8 @@ class Conta
             return null;
         }
 
-        $entityManager = Conta::getEntityManager();
-        $referencia = $entityManager->getReference(Conta::class, $id);
-
-        $entityManager->remove($referencia);
+        $entityManager = EntityManager::getEntityManager();
+        $entityManager->remove($conta);
         $entityManager->flush();
 
         return $conta;
@@ -108,7 +104,7 @@ class Conta
 
     public static function salvar($id, $nome, $valor, $receita): ?Conta
     {
-        $entityManager = Conta::getEntityManager();
+        $entityManager = EntityManager::getEntityManager();
         $conta = new Conta();
         $conta->setNome($nome);
         $conta->setValor($valor);

@@ -1,12 +1,14 @@
-svg{
-    width: 1em;
-    height: 1em;
+th{
+    text-align: center;
 }
 th[onclick]{
     cursor: pointer;
 }
 th[onclick]:hover{
     text-decoration: underline;
+}
+nav *{
+    cursor: pointer;
 }
 .alert{
     width: 90%;

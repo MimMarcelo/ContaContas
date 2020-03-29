@@ -8,14 +8,26 @@ use Doctrine\ORM\Tools\Setup;
 /**
  *
  */
-trait EntityManager
+class EntityManager
 {
+    /**
+     * @var type Doctrine\ORM\EntityManager
+     */
+    private static $entityManager;
+
     public static function getEntityManager(): \Doctrine\ORM\EntityManager
     {
-        // Create a simple "default" Doctrine ORM configuration for Annotations
+        if(is_null(EntityManager::$entityManager)){
+            EntityManager::$entityManager = EntityManager::createEntityManager();
+        }
+        return EntityManager::$entityManager;
+    }
+
+    private static function createEntityManager(): \Doctrine\ORM\EntityManager
+    {
         $isDevMode = false;
         $proxyDir = null;
-        $cache = null;
+        $cache = new \Doctrine\Common\Cache\ArrayCache;
         $useSimpleAnnotationReader = true;
         $config = Setup::createAnnotationMetadataConfiguration(array(__DIR__."/../Model/"), $isDevMode, $proxyDir, $cache, $useSimpleAnnotationReader);
 
@@ -25,7 +37,6 @@ trait EntityManager
             'user' => 'root',
             'password' => '',
             'dbname' => 'contacontas',
-            // 'path' => __DIR__ . '/../../db.sqlite',
         );
 
         // obtaining the entity manager
