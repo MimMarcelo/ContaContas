@@ -15,7 +15,7 @@ $('.alert').on('close.bs.alert', function (event) {
 * As adaptações foram feitas utilizando JQuery
 * Foi traduzida para o português
 ******************************************************************************/
-function ordenarTabela(elemento, ehNumero = false) {
+function ordenarTabela(elemento, tipo = '') {
     // Variáveis que representam elementos/conteúdos da tabela
     var linhas, linhaAtual, linhaSeguinte, conteudoAtual, conteudoSeguinte, nColuna;
 
@@ -43,9 +43,25 @@ function ordenarTabela(elemento, ehNumero = false) {
             linhaAtual = $(linhas[i]).find(" *:nth-child("+nColuna+")");
             linhaSeguinte = $(linhas[i + 1]).find(" *:nth-child("+nColuna+")");
 
-            // Pega o conteúdo da célula, distinguindo se é número ou não
-            conteudoAtual = ehNumero?Number(linhaAtual.text().match(/\d+/g).join('.')):linhaAtual.text().toLowerCase();
-            conteudoSeguinte = ehNumero?Number(linhaSeguinte.text().match(/\d+/g).join('.')):linhaSeguinte.text().toLowerCase();
+            // Pega o conteúdo da célula, distinguindo se é número, data ou texto comum
+            switch (tipo) {
+                case 'numero':
+                conteudoAtual = Number(linhaAtual.text().match(/\d+/g).join('.'));
+                conteudoSeguinte = Number(linhaSeguinte.text().match(/\d+/g).join('.'));
+                break;
+                case 'data':
+                conteudoAtual = linhaAtual.text().substring(6);
+                conteudoAtual += linhaAtual.text().substring(3, 5);
+                conteudoAtual += linhaAtual.text().substring(0, 2);
+                conteudoSeguinte = linhaSeguinte.text().substring(6);
+                conteudoSeguinte += linhaSeguinte.text().substring(3, 5);
+                conteudoSeguinte += linhaSeguinte.text().substring(0, 2);
+                break;
+                default:
+                conteudoAtual = linhaAtual.text().toLowerCase();
+                conteudoSeguinte = linhaSeguinte.text().toLowerCase();
+
+            }
 
             // Verifica se as duas linhas devem trocar de lugar
             if (ordemAscendente) {

@@ -14,11 +14,11 @@
                     Nome
                     <span class="material-icons">swap_vert</span>
                 </th>
-                <th scope="col" onclick="ordenarTabela(this, true)">
+                <th scope="col" onclick="ordenarTabela(this, 'numero')">
                     Valor
                     <span class="material-icons">swap_vert</span>
                 </th>
-                <th scope="col" onclick="ordenarTabela(this)">
+                <th scope="col" onclick="ordenarTabela(this, 'data')">
                     Data
                     <span class="material-icons">swap_vert</span>
                 </th>
