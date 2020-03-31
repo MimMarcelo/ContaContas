@@ -18,6 +18,10 @@
                     Valor
                     <span class="material-icons">swap_vert</span>
                 </th>
+                <th scope="col" onclick="ordenarTabela(this)">
+                    Data
+                    <span class="material-icons">swap_vert</span>
+                </th>
                 <th scope="col">Editar</th>
                 <th scope="col">Excluir</th>
             </tr>
@@ -31,6 +35,7 @@
                     <td><?= $conta->receita?"C":"D"; ?></td>
                     <td><?= $conta->nome; ?></td>
                     <td><?= "R$ {$conta->valor}"; ?></td>
+                    <td><?= date_format($conta->dataAplicacao, 'd/m/Y'); ?></td>
                     <td>
                         <a href="/contas/editar/<?= $conta->id; ?>" class="btn btn-warning">
                             <span class="material-icons">edit</span>

@@ -18,6 +18,16 @@
             <input type="number" class="form-control" name="iptValor" id="iptValor" step="0.01" min="0" value="<?= isset($conta)?$conta->valor:''; ?>">
         </div>
     </div>
+    <div class="form-group">
+        <label for="iptData">Data</label>
+        <div class="input-group">
+            <div class="input-group-prepend">
+                <span class="input-group-text material-icons">event_note</span>
+            </div>
+            <input type="date" class="form-control" name="iptData" id="iptData"
+                value="<?= date_format(isset($conta)?$conta->dataAplicacao:new \DateTime(), "Y-m-d"); ?>">
+        </div>
+    </div>
     <div class="form-check">
         <div class="form-group">
             <input type="checkbox" class="form-check-input" name="iptReceita" id="iptReceita" <?= isset($conta)?$conta->receita?'checked':'':''; ?>>

@@ -35,6 +35,16 @@ class Conta
      * @var type bool
      */
     private $receita;
+    /**
+     * @Column(type="datetime", options={"default" : "2020/01/01 00:00:00"})
+     * @var type \DateTime
+     */
+    private $dataAplicacao;
+    /**
+     * @Column(type="datetime", options={"default" : "2020/01/01 00:00:00"})
+     * @var type \DateTime
+     */
+    private $dataUltimaAlteracao;
 
     public function __get(string $atributo)
     {
@@ -62,6 +72,12 @@ class Conta
     public function setReceita($receita)
     {
         $this->receita = is_null($receita)?false:$receita;
+        return $this;
+    }
+
+    public function setDataAplicacao($dataAplicacao)
+    {
+        $this->dataAplicacao = $dataAplicacao;
         return $this;
     }
 
@@ -102,13 +118,16 @@ class Conta
         return $conta;
     }
 
-    public static function salvar($id, $nome, $valor, $receita): ?Conta
+    public static function salvar(array $params): ?Conta
     {
+        extract($params);
         $entityManager = EntityManager::getEntityManager();
         $conta = new Conta();
         $conta->setNome($nome);
         $conta->setValor($valor);
         $conta->setReceita($receita);
+        $conta->setDataAplicacao(new \DateTime($dataAplicacao));
+        $conta->dataUltimaAlteracao = new \DateTime();
 
         if (Conta::validarId($id)) {
             $conta->setId($id);

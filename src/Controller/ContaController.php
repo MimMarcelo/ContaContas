@@ -74,7 +74,17 @@ class ContaController extends BaseController
         $nome = filter_input(INPUT_POST, 'iptNome', FILTER_SANITIZE_STRING);
         $valor = filter_input(INPUT_POST, 'iptValor', FILTER_VALIDATE_FLOAT);
         $receita = filter_input(INPUT_POST, 'iptReceita', FILTER_VALIDATE_BOOLEAN);
-        $conta = Conta::salvar($id, $nome, $valor, $receita);
+        $dataAplicacao = filter_input(INPUT_POST, 'iptData');
+
+        $params = array(
+            'id' => $id,
+            'nome' => $nome,
+            'valor' => $valor,
+            'receita' => $receita,
+            'dataAplicacao' => $dataAplicacao,
+        );
+
+        $conta = Conta::salvar($params);
         if(is_null($conta)){
             $this->setMensagemErro(array('Não foi possível salvar os dados da conta'));
             header("Location: /contas");
