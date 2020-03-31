@@ -35,7 +35,7 @@ class EntityManager
         $conn = array(
             'driver' => 'pdo_mysql',
             'user' => 'root',
-            'password' => 'Senha12#',
+            'password' => '',
             'dbname' => 'contacontas',
         );
 
