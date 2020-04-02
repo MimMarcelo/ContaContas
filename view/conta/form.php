@@ -25,13 +25,13 @@
                 <span class="input-group-text material-icons">event_note</span>
             </div>
             <input type="date" class="form-control" name="iptData" id="iptData"
-                value="<?= date_format(isset($conta)?$conta->dataAplicacao:new \DateTime(), "Y-m-d"); ?>">
+            value="<?= date_format(isset($conta)?$conta->dataAplicacao:new \DateTime(), "Y-m-d"); ?>">
         </div>
     </div>
-    <div class="form-check">
-        <div class="form-group">
-            <input type="checkbox" class="form-check-input" name="iptReceita" id="iptReceita" <?= isset($conta)?$conta->receita?'checked':'':''; ?>>
-            <label class="form-check-label" for="iptReceita">
+    <div class="form-group">
+        <div class="custom-control custom-switch">
+            <input type="checkbox" class="custom-control-input" name="iptReceita" id="iptReceita" <?= isset($conta)?$conta->receita?'checked':'':''; ?>>
+            <label class="custom-control-label" for="iptReceita">
                 <span class="material-icons">add_to_queue</span>
                 Receita
             </label>
