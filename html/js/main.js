@@ -7,87 +7,84 @@ $('.alert').on('close.bs.alert', function (event) {
     }, 1010);
 });
 
-/* Função de ordenação de tabelas *********************************************
-* Fonte: https://www.w3schools.com/howto/howto_js_sort_table.asp
-*
-* Foram feitas alterações do código original, pois não ordenava os números
-* precedidos de texto de forma adequada.
-* As adaptações foram feitas utilizando JQuery
-* Foi traduzida para o português
-******************************************************************************/
-function ordenarTabela(elemento, tipo = '') {
-    // Variáveis que representam elementos/conteúdos da tabela
-    var linhas, linhaAtual, linhaSeguinte, conteudoAtual, conteudoSeguinte, nColuna;
+$('.form_get').on('change', function(){
+    var form = $(this).parents("form");
+    var url = $(form).attr("action");
 
-    // Variáveis que apoiam a funcionalidade
-    var continuarOrdenando, i, deveTrocar, ordemAscendente, contadorDeTrocas;
+    var allFields = $(form).find('.form_get');
+    $(allFields).each(function(){
+        url += "/"+$(this).val();
+    });
+    getJSON(url);
+});
 
-    // Define os valores iniciais
-    nColuna = $(elemento).index() + 1; // +1, pois para os seletores CSS a primeira posição é 1
-    ordemAscendente = true;
-    continuarOrdenando = true;
-    contadorDeTrocas = 0
+$('.redirecionar').click(function(){
+    getJSON($(this).attr('data-target'));
+});
+function getJSON(url){
+    $.get(
+        url,
+        atualizarTabela
+    );
+}
+function novaLinha(json) {
 
-    // Repete as verificações até que continuarOrdenando = false
-    while (continuarOrdenando) {
-        continuarOrdenando = false;
+    var linha = $("<tr>");
+    var thN = $("<th>");
+    var tdReceita = $("<td>");
+    var tdNome = $("<td>");
+    var tdValor = $("<td>");
+    var tdData = $("<td>");
+    var tdEditar = $("<td>");
+    var tdExcluir = $("<td>");
+    var aEditar = $("<a>");
+    var aExcluir = $("<a>");
+    var sEditar = $("<span>");
+    var sExcluir = $("<span>");
 
-        // Obtém a sequência atual de linhas
-        linhas = $(elemento).parents('table').find("tbody tr");
+    $(thN).text(json.Conta.id);
+    $(tdReceita).text(json.Conta.receita?"C":"D");
+    $(tdNome).text(json.Conta.nome);
+    $(tdValor).text(json.Conta.valor);
+    $(tdData).text(json.Conta.dataAplicacao.date);
 
-        // Percorre todas as linhas do tbody da tabela
-        for (i = 0; i < (linhas.length - 1); i++) {
-            deveTrocar = false;
+    $(aEditar).addClass("btn");
+    $(aEditar).addClass("btn-warning");
+    $(aEditar).attr("href", "/contas/editar/"+json.Conta.id);
+    $(sEditar).addClass("material-icons");
+    $(sEditar).text("edit");
+    $(aEditar).append(sEditar);
+    $(tdEditar).append(aEditar);
 
-            // Pega referências para a linha atual e a próxima
-            linhaAtual = $(linhas[i]).find(" *:nth-child("+nColuna+")");
-            linhaSeguinte = $(linhas[i + 1]).find(" *:nth-child("+nColuna+")");
+    $(aExcluir).addClass("btn");
+    $(aExcluir).addClass("btn-danger");
+    $(aExcluir).attr("href", "/contas/excluir/"+json.Conta.id);
+    $(sExcluir).addClass("material-icons");
+    $(sExcluir).text("delete_sweep");
+    $(aExcluir).append(sExcluir);
+    $(tdExcluir).append(aExcluir);
 
-            // Pega o conteúdo da célula, distinguindo se é número, data ou texto comum
-            switch (tipo) {
-                case 'numero':
-                conteudoAtual = Number(linhaAtual.text().match(/\d+/g).join('.'));
-                conteudoSeguinte = Number(linhaSeguinte.text().match(/\d+/g).join('.'));
-                break;
-                case 'data':
-                conteudoAtual = linhaAtual.text().substring(6);
-                conteudoAtual += linhaAtual.text().substring(3, 5);
-                conteudoAtual += linhaAtual.text().substring(0, 2);
-                conteudoSeguinte = linhaSeguinte.text().substring(6);
-                conteudoSeguinte += linhaSeguinte.text().substring(3, 5);
-                conteudoSeguinte += linhaSeguinte.text().substring(0, 2);
-                break;
-                default:
-                conteudoAtual = linhaAtual.text().toLowerCase();
-                conteudoSeguinte = linhaSeguinte.text().toLowerCase();
+    linha.append(thN);
+    linha.append(tdReceita);
+    linha.append(tdNome);
+    linha.append(tdValor);
+    linha.append(tdData);
+    linha.append(tdEditar);
+    linha.append(tdExcluir);
+    return linha;
+}
 
-            }
+function atualizarTabela(data) {
+    var json = JSON.parse(data);
+    var t = $('tbody')
+    t.empty();
+    $(json.lista).each(function(){
+        var linha = novaLinha(JSON.parse(this));
+        t.append(linha);
+    });
 
-            // Verifica se as duas linhas devem trocar de lugar
-            if (ordemAscendente) {
-                if (conteudoAtual > conteudoSeguinte) {
-                    deveTrocar= true;
-                    break;
-                }
-            } else {
-                if (conteudoAtual < conteudoSeguinte) {
-                    deveTrocar = true;
-                    break;
-                }
-            }
-        }
+}
 
-        if (deveTrocar) {
-            // Se deveTrocar = true, então realiza a inversão de posições
-            linhas[i].parentNode.insertBefore(linhas[i + 1], linhas[i]);
-            continuarOrdenando = true;
-            contadorDeTrocas ++;
-        } else {
-            // Se contadorDeTrocas = 0 e a ordem está definida como ascendente, inverter a ordenação
-            if (contadorDeTrocas == 0 && ordemAscendente) {
-                ordemAscendente = false;
-                continuarOrdenando = true;
-            }
-        }
-    }
+function redirecionarPara(url){
+    window.location.replace(url);
 }

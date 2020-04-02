@@ -11,6 +11,7 @@ class ContaController extends BaseController
     public function processarRequisicao(array $requisicao): void
     {
         $pagina = array_shift($requisicao);
+        $json = false;
         switch ($pagina) {
             case 'editar':
             $this->editar(array_shift($requisicao));
@@ -28,8 +29,15 @@ class ContaController extends BaseController
             $this->salvar();
             break;
 
-            default:
-            $this->listar();
+            case 'listar_json':
+            $json = true;
+            case '':
+            case 'listar':
+            $this->listar($requisicao, $json);
+            break;
+
+            case 'json':
+            $this->getJSON($requisicao);
             break;
         }
     }
@@ -58,12 +66,37 @@ class ContaController extends BaseController
         $this->showView("conta/form.php", $dados);
     }
 
-    private function listar(): void
+    private function listar($periodo, $json): void
     {
-        $contas = Conta::getAll();
+        $mes = array_shift($periodo);
+        $ano = array_shift($periodo);
+
+        if(!isset($mes) || $mes < 0 || $mes > 12){
+            $mes = date_format(new \DateTime(), "m");
+        }
+        if(!isset($ano) || $ano < 2019 || $ano > (date_format(new \DateTime(), "Y")+2)){
+            $ano = date_format(new \DateTime(), "Y");
+        }
+
+        $date = new \DateTime();
+        $date->setDate($ano, $mes ,"01");
+
+        $dInicial = date_format($date, "Y-m-d");
+
+        $date->add(date_interval_create_from_date_string('1 month -1 day'));
+        $dFinal = date_format($date, "Y-m-d");
+
+        $contas = Conta::getAll($dInicial, $dFinal);
+
+        if($json){
+            echo $contas->toJSON();
+            return;
+        }
+        
         $dados = array(
             'titulo' => 'Listar contas',
-            'contas' => $contas
+            'contas' => $contas,
+            'mes' => $date
         );
         $this->showView("conta/listar.php", $dados);
     }
@@ -92,7 +125,6 @@ class ContaController extends BaseController
         }
 
         $this->setMensagemSucesso(array('Conta "' . $conta->nome . '" salva com sucesso!'));
-        // echo "Conta '{$conta->nome}' salva com sucesso!";
         header("Location: /contas");
     }
 
@@ -107,6 +139,21 @@ class ContaController extends BaseController
 
         $this->setMensagemSucesso(array('Conta "' . $conta->nome . '" excluida com sucesso!'));
         header("Location: /contas");
+    }
+
+    private function getJSON($requisicao)
+    {
+        $metodo = array_shift($requisicao);
+        switch ($metodo) {
+            case 'get':
+                $conta = Conta::getConta(array_shift($requisicao));
+                echo $conta->toJSON();
+                break;
+            case 'get_all':
+                $conta = Conta::getAll();
+                echo $conta->toJSON();
+                break;
+        }
     }
 
 }

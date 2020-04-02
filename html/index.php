@@ -13,7 +13,7 @@ if(isset($uri)){ //Resolve problema no Windows
     $requisicao = explode("/", $uri);
 }
 // Como a URL começa com '/', primeiro elemento é sempre vazio =>
- array_shift($requisicao);
+array_shift($requisicao);
 
 // Obtém o pedido do usuário => $requisicao[1]
 $pedido = array_shift($requisicao);

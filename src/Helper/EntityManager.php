@@ -6,13 +6,13 @@ require_once __DIR__ . "/../../vendor/autoload.php";
 use Doctrine\ORM\Tools\Setup;
 
 /**
- *
- */
+*
+*/
 class EntityManager
 {
     /**
-     * @var type Doctrine\ORM\EntityManager
-     */
+    * @var type Doctrine\ORM\EntityManager
+    */
     private static $entityManager;
 
     public static function getEntityManager(): \Doctrine\ORM\EntityManager
@@ -37,6 +37,10 @@ class EntityManager
             'user' => 'root',
             'password' => '',
             'dbname' => 'contacontas',
+            'charset'  => 'utf8',
+            'driverOptions' => array(
+                1002 => 'SET NAMES utf8'
+            )
         );
 
         // obtaining the entity manager

@@ -2,10 +2,10 @@
 
 namespace MimMarcelo\ContaContas\Model;
 
-use \MimMarcelo\ContaContas\Helper\{JSON, EntityManager, Validador};
+use MimMarcelo\ContaContas\Helper\{EntityManager, JSON, Validador};
 
 /**
- * @Entity
+ * @Entity(repositoryClass="MimMarcelo\ContaContas\Repository\ContaRepository")
  * @Table(name="contas")
  */
 class Conta
@@ -81,12 +81,12 @@ class Conta
         return $this;
     }
 
-    public static function getAll(): Periodo
+    public static function getAll($dInicial, $dFinal): Periodo
     {
         $entityManager = EntityManager::getEntityManager();
         $repositorio = $entityManager->getRepository(Conta::class);
 
-        return new Periodo($repositorio->findAll());
+        return new Periodo($repositorio->getContasPorPeriodo($dInicial, $dFinal));
     }
 
     public static function getConta($id): ?Conta

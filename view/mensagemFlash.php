@@ -1,5 +1,5 @@
 <?php
-// $_SESSION['mensagem'] = array("tipo" => "success", "titulo" => "Falha", "mensagens" => array("Não foi possível excluir a conta", "Conta não encontrada"));
+//$_SESSION['mensagem'] = array("tipo" => "success", "titulo" => "Falha", "mensagens" => array("Não foi possível excluir a conta", "Conta não encontrada"));
 if (isset($_SESSION['mensagem'])):
     $msg = $_SESSION['mensagem'];
 ?>
