@@ -14,6 +14,12 @@ trait JSON{
 
     public function toJSON(): string
     {
+        if($this instanceof IteratorAdapter){
+            foreach ($this as $item) {
+                $lista[] = $item->toJSON();
+            }
+            return json_encode(array('lista' => $lista));
+        }
         return json_encode(array($this->getClassName() => get_object_vars($this)));
     }
 
@@ -26,7 +32,7 @@ trait JSON{
         if(empty($aux)){
             return 2;
         }
-        
+
         if(!array_key_exists($this->getClassName(), $aux)){
             return 3;
         }

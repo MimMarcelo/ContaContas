@@ -1,11 +1,13 @@
 <?php
 namespace MimMarcelo\ContaContas\Model;
 
-use MimMarcelo\ContaContas\Helper\{IteratorAdapter};
+use MimMarcelo\ContaContas\Helper\{IteratorAdapter, JSON};
 /**
  *
  */
 class Periodo extends IteratorAdapter{
+
+    use JSON;
 
     private $total;
     private $totalDespezas;
@@ -19,14 +21,6 @@ class Periodo extends IteratorAdapter{
 
     public function __get($atributo){
         return $this->$atributo;
-    }
-
-    public function toJSON()
-    {
-        foreach ($this as $conta) {
-            $lista[] = $conta->toJSON();
-        }
-        return json_encode(array('lista' => $lista));
     }
 
     private function getTotal(): void
