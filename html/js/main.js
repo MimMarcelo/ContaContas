@@ -27,7 +27,7 @@ function getJSON(url){
         atualizarTabela
     );
 }
-function novaLinha(json) {
+function novaLinha(n, json) {
 
     var linha = $("<tr>");
     var thN = $("<th>");
@@ -42,11 +42,17 @@ function novaLinha(json) {
     var sEditar = $("<span>");
     var sExcluir = $("<span>");
 
-    $(thN).text(json.Conta.id);
+    var dataAplicacao = new Date(json.Conta.dataAplicacao.date);
+    var dia = dataAplicacao.getDate();
+    if(dia<10) dia = "0"+dia;
+    var mes = dataAplicacao.getMonth()+1;
+    if(mes<10) mes = "0"+mes;
+
+    $(thN).text(n);
     $(tdReceita).text(json.Conta.receita?"C":"D");
     $(tdNome).text(json.Conta.nome);
     $(tdValor).text(json.Conta.valor);
-    $(tdData).text(json.Conta.dataAplicacao.date);
+    $(tdData).text(dia+"/"+mes+"/"+dataAplicacao.getFullYear());
 
     $(aEditar).addClass("btn");
     $(aEditar).addClass("btn-warning");
@@ -78,8 +84,9 @@ function atualizarTabela(data) {
     var json = JSON.parse(data);
     var t = $('tbody')
     t.empty();
+    var n = 0;
     $(json.lista).each(function(){
-        var linha = novaLinha(JSON.parse(this));
+        var linha = novaLinha(++n, JSON.parse(this));
         t.append(linha);
     });
 
