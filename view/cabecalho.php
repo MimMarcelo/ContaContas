@@ -36,6 +36,9 @@
             </nav>
             <h1>Conta Contas</h1>
         </header>
+        <div class="center" id="loading">
+                <img src="/img/spinner.gif" alt="Figura que representa que a página está carregando">
+        </div>
         <main>
             <section>
                 <h2><?=$titulo;?></h2>

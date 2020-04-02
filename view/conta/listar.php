@@ -1,12 +1,12 @@
 <?php $hoje = new \DateTime(); ?>
-<form action="/contas/listar_json">
+<form action="/contas/listar_json" data-target="atualizarTabelaContas">
     <div class="form-group">
         <label for="slcMes">Mes</label>
         <div class="input-group">
             <div class="input-group-prepend">
                 <span class="input-group-text material-icons">event_note</span>
             </div>
-            <select class="form-control form_get" name="slcMes" id="slcMes">
+            <select class="form-control campo-ajax" name="slcMes" id="slcMes">
                 <option value="1" <?= date_format($mes, "m")==1?"selected":""; ?>>Jan</option>
                 <option value="2" <?= date_format($mes, "m")==2?"selected":""; ?>>Fev</option>
                 <option value="3" <?= date_format($mes, "m")==3?"selected":""; ?>>Mar</option>
@@ -28,7 +28,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text material-icons">event_note</span>
             </div>
-            <select class="form-control form_get" name="slcAno" id="slcAno">
+            <select class="form-control campo-ajax" name="slcAno" id="slcAno">
                 <?php for($ano=(date_format($hoje, "Y")+2); $ano >= 2019; $ano--): ?>
                     <option value="<?= $ano; ?>" <?= date_format($mes, "Y")==$ano?"selected":""; ?>><?= $ano; ?></option>
                 <?php endfor; ?>
@@ -37,26 +37,23 @@
     </div>
     <div class="form-group">
         <label>Consultas pré-definidas</label>
-        <input type="button" value="Anterior" class="btn btn-secondary redirecionar" name="acao"
-            data-target="/contas/listar_json/<?php
+        <input type="button" value="Anterior" class="btn btn-secondary botao-ajax"
+            data-target="<?php
                 $hoje->add(date_interval_create_from_date_string('-1 month'));
                 echo date_format($hoje, 'm');
-                echo '/';
-                echo date_format($hoje, 'Y');
+                echo '/'.date_format($hoje, 'Y');
             ?>">
-        <input type="button" value="Mês Atual" class="btn btn-info redirecionar" name="acao"
-            data-target="/contas/listar_json/<?php
+        <input type="button" value="Mês Atual" class="btn btn-info botao-ajax"
+            data-target="<?php
                 $hoje->add(date_interval_create_from_date_string('1 month'));
                 echo date_format($hoje, 'm');
-                echo '/';
-                echo date_format($hoje, 'Y');
+                echo '/'.date_format($hoje, 'Y');
             ?>">
-        <input type="button" value="Próximo" class="btn btn-secondary redirecionar" name="acao"
-            data-target="/contas/listar_json/<?php
+        <input type="button" value="Próximo" class="btn btn-secondary botao-ajax"
+            data-target="<?php
                 $hoje->add(date_interval_create_from_date_string('1 month'));
                 echo date_format($hoje, 'm');
-                echo '/';
-                echo date_format($hoje, 'Y');
+                echo '/'.date_format($hoje, 'Y');
             ?>">
     </div>
 </form>
