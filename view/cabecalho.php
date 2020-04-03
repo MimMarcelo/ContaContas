@@ -31,6 +31,15 @@
                                 <a class="dropdown-item" href="/contas/inserir">Inserir</a>
                             </div>
                         </li>
+                        <li class="nav-item dropdown">
+                            <span class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                              Classes de conta
+                          </span>
+                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <a class="dropdown-item" href="/classesconta">Listar</a>
+                                <a class="dropdown-item" href="/classesconta/inserir">Inserir</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </nav>

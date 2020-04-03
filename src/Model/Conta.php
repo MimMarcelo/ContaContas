@@ -31,51 +31,82 @@ class Conta
      */
     private $valor;
     /**
-     * @Column(type="boolean", options={"default" : false})
-     * @var type bool
-     */
-    private $receita;
-    /**
-     * @Column(type="datetime", options={"default" : "2020/01/01 00:00:00"})
+     * @Column(type="datetime")
      * @var type \DateTime
      */
     private $dataAplicacao;
     /**
-     * @Column(type="datetime", options={"default" : "2020/01/01 00:00:00"})
+     * @Column(type="datetime")
      * @var type \DateTime
      */
     private $dataUltimaAlteracao;
 
-    public function __get(string $atributo)
+    /**
+     * @ManyToOne(targetEntity="ClasseConta", inversedBy="contas", cascade={"remove", "persist"}, fetch="EAGER")
+     * @var type ClasseConta
+     */
+    private $classe;
+
+    public function getId(): int
     {
-        return $this->$atributo;
+        return $this->id;
     }
 
-    public function setId($id)
+    public function getNome(): string
     {
-        $this->id = $id;
-        return $this;
+        return $this->nome;
     }
 
-    public function setNome($nome)
+    public function getValor(): float
+    {
+        return $this->valor;
+    }
+
+    public function getDataAplicacao(): \DateTime
+    {
+        return $this->dataAplicacao;
+    }
+
+    public function getClasse(): ClasseConta
+    {
+        return $this->classe;
+    }
+
+    public function setId(int $id): ?Conta
+    {
+        if (Conta::validarId($id)) {
+            $this->id = $id;
+            return $this;
+        }
+        return null;
+    }
+
+    public function setNome($nome): ?Conta
     {
         $this->nome = $nome;
         return $this;
     }
 
-    public function setValor($valor)
+    public function setValor($valor): ?Conta
     {
         $this->valor = $valor;
         return $this;
     }
 
-    public function setReceita($receita)
+    public function setClasse($classe): ?Conta
     {
-        $this->receita = is_null($receita)?false:$receita;
-        return $this;
+        if($classe instanceof ClasseConta){
+            $this->classe = $classe;
+            return $this;
+        }
+        if(Conta::validarId($classe)){
+            $this->classe = ClasseConta::get($classe);
+            return $this;
+        }
+        return null;
     }
 
-    public function setDataAplicacao($dataAplicacao)
+    public function setDataAplicacao($dataAplicacao): ?Conta
     {
         $this->dataAplicacao = $dataAplicacao;
         return $this;
@@ -89,7 +120,7 @@ class Conta
         return new Periodo($repositorio->getContasPorPeriodo($dInicial, $dFinal));
     }
 
-    public static function getConta($id): ?Conta
+    public static function get($id): ?Conta
     {
         if (!Conta::validarId($id)) {
             return null;
@@ -104,20 +135,6 @@ class Conta
         return $conta;
     }
 
-    public static function remover($id): ?Conta
-    {
-        $conta = Conta::getConta($id);
-        if(is_null($conta)){
-            return null;
-        }
-
-        $entityManager = EntityManager::getEntityManager();
-        $entityManager->remove($conta);
-        $entityManager->flush();
-
-        return $conta;
-    }
-
     public static function salvar(array $params): ?Conta
     {
         extract($params);
@@ -125,18 +142,31 @@ class Conta
         $conta = new Conta();
         $conta->setNome($nome);
         $conta->setValor($valor);
-        $conta->setReceita($receita);
+        $conta->setClasse($classe);
         $conta->setDataAplicacao(new \DateTime($dataAplicacao));
         $conta->dataUltimaAlteracao = new \DateTime();
 
-        if (Conta::validarId($id)) {
-            $conta->setId($id);
+        if ($conta->setId($id)) {
             $entityManager->merge($conta);
         }
         else{
             $entityManager->persist($conta);
         }
 
+        $entityManager->flush();
+
+        return $conta;
+    }
+
+    public static function remover($id): ?Conta
+    {
+        $conta = Conta::get($id);
+        if(is_null($conta)){
+            return null;
+        }
+
+        $entityManager = EntityManager::getEntityManager();
+        $entityManager->remove($conta);
         $entityManager->flush();
 
         return $conta;

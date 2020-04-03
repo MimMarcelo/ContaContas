@@ -1,9 +1,10 @@
 <?php
 
-use MimMarcelo\ContaContas\Controller\ContaController;
+use MimMarcelo\ContaContas\Controller\{ClasseContaController, ContaController};
 
 // Lista de todos os Controllers possíveis na aplicação
 $rotas = [
+    'classesconta' => ClasseContaController::class,
     'contas' => ContaController::class,
     '' => ContaController::class,
 ];

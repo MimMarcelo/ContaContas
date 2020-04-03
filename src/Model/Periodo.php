@@ -3,8 +3,8 @@ namespace MimMarcelo\ContaContas\Model;
 
 use MimMarcelo\ContaContas\Helper\{IteratorAdapter, JSON};
 /**
- *
- */
+*
+*/
 class Periodo extends IteratorAdapter{
 
     use JSON;
@@ -31,15 +31,17 @@ class Periodo extends IteratorAdapter{
 
         /** @var $conta Conta */
         foreach ($this as $conta) {
-            if($conta->receita){
-                $this->total += $conta->valor;
-                $this->totalReceitas += $conta->valor;
-            }
-            else{
-                $this->total -= $conta->valor;
-                $this->totalDespezas += $conta->valor;
+            switch($conta->getClasse()->getTipo()){
+                case 'C':
+                $this->total += $conta->getValor();
+                $this->totalReceitas += $conta->getValor();
+                break;
+                case 'D':
+                $this->total -= $conta->getValor();
+                $this->totalDespezas += $conta->getValor();
+                break;
             }
         }
     }
 }
- ?>
+?>

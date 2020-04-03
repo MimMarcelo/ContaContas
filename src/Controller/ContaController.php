@@ -35,16 +35,12 @@ class ContaController extends BaseController
             case 'listar':
             $this->listar($requisicao, $json);
             break;
-
-            case 'json':
-            $this->getJSON($requisicao);
-            break;
         }
     }
 
     private function editar($id): void
     {
-        $conta = Conta::getConta($id);
+        $conta = Conta::get($id);
         if(is_null($conta)){
             $this->setMensagemErro(array('Não foi possível carregar os dados da conta', 'Conta não encontrada'));
             header("Location: /contas");
@@ -52,10 +48,10 @@ class ContaController extends BaseController
         }
 
         $dados = array(
-            'titulo' => "Editar conta: {$conta->nome}",
+            'titulo' => "Editar conta: {$conta->getNome()}",
             'conta' => $conta
         );
-        $this->showView("conta/form.php", $dados);
+        $this->showView("contas/form.php", $dados);
     }
 
     private function inserir(): void
@@ -63,7 +59,7 @@ class ContaController extends BaseController
         $dados = array(
             'titulo' => 'Criar Conta'
         );
-        $this->showView("conta/form.php", $dados);
+        $this->showView("contas/form.php", $dados);
     }
 
     private function listar($periodo, $json): void
@@ -92,13 +88,13 @@ class ContaController extends BaseController
             echo $contas->toJSON();
             return;
         }
-        
+
         $dados = array(
             'titulo' => 'Listar contas',
             'contas' => $contas,
             'mes' => $date
         );
-        $this->showView("conta/listar.php", $dados);
+        $this->showView("contas/listar.php", $dados);
     }
 
     private function salvar(): void
@@ -106,14 +102,14 @@ class ContaController extends BaseController
         $id = filter_input(INPUT_POST, 'iptId', FILTER_VALIDATE_INT);
         $nome = filter_input(INPUT_POST, 'iptNome', FILTER_SANITIZE_STRING);
         $valor = filter_input(INPUT_POST, 'iptValor', FILTER_VALIDATE_FLOAT);
-        $receita = filter_input(INPUT_POST, 'iptReceita', FILTER_VALIDATE_BOOLEAN);
+        $classe = filter_input(INPUT_POST, 'slcClasse', FILTER_VALIDATE_INT);
         $dataAplicacao = filter_input(INPUT_POST, 'iptData');
 
         $params = array(
             'id' => $id,
             'nome' => $nome,
             'valor' => $valor,
-            'receita' => $receita,
+            'classe' => $classe,
             'dataAplicacao' => $dataAplicacao,
         );
 
@@ -124,7 +120,7 @@ class ContaController extends BaseController
             return;
         }
 
-        $this->setMensagemSucesso(array('Conta "' . $conta->nome . '" salva com sucesso!'));
+        $this->setMensagemSucesso(array('Conta "' . $conta->getNome() . '" salva com sucesso!'));
         header("Location: /contas");
     }
 
@@ -137,23 +133,7 @@ class ContaController extends BaseController
             return;
         }
 
-        $this->setMensagemSucesso(array('Conta "' . $conta->nome . '" excluida com sucesso!'));
+        $this->setMensagemSucesso(array('Conta "' . $conta->getNome() . '" excluida com sucesso!'));
         header("Location: /contas");
     }
-
-    private function getJSON($requisicao)
-    {
-        $metodo = array_shift($requisicao);
-        switch ($metodo) {
-            case 'get':
-                $conta = Conta::getConta(array_shift($requisicao));
-                echo $conta->toJSON();
-                break;
-            case 'get_all':
-                $conta = Conta::getAll();
-                echo $conta->toJSON();
-                break;
-        }
-    }
-
 }

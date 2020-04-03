@@ -7,18 +7,19 @@
                 <span class="input-group-text material-icons">event_note</span>
             </div>
             <select class="form-control campo-ajax" name="slcMes" id="slcMes">
-                <option value="1" <?= date_format($mes, "m")==1?"selected":""; ?>>Jan</option>
-                <option value="2" <?= date_format($mes, "m")==2?"selected":""; ?>>Fev</option>
-                <option value="3" <?= date_format($mes, "m")==3?"selected":""; ?>>Mar</option>
-                <option value="4" <?= date_format($mes, "m")==4?"selected":""; ?>>Abr</option>
-                <option value="5" <?= date_format($mes, "m")==5?"selected":""; ?>>Mai</option>
-                <option value="6" <?= date_format($mes, "m")==6?"selected":""; ?>>Jun</option>
-                <option value="7" <?= date_format($mes, "m")==7?"selected":""; ?>>Jul</option>
-                <option value="8" <?= date_format($mes, "m")==8?"selected":""; ?>>Ago</option>
-                <option value="9" <?= date_format($mes, "m")==9?"selected":""; ?>>Set</option>
-                <option value="10" <?= date_format($mes, "m")==10?"selected":""; ?>>Out</option>
-                <option value="11" <?= date_format($mes, "m")==11?"selected":""; ?>>Nov</option>
-                <option value="12" <?= date_format($mes, "m")==12?"selected":""; ?>>Dez</option>
+                <?php $numero_mes = date_format($hoje, "m"); ?>
+                <option value="1" <?= $numero_mes==1?"selected":""; ?>>Jan</option>
+                <option value="2" <?= $numero_mes==2?"selected":""; ?>>Fev</option>
+                <option value="3" <?= $numero_mes==3?"selected":""; ?>>Mar</option>
+                <option value="4" <?= $numero_mes==4?"selected":""; ?>>Abr</option>
+                <option value="5" <?= $numero_mes==5?"selected":""; ?>>Mai</option>
+                <option value="6" <?= $numero_mes==6?"selected":""; ?>>Jun</option>
+                <option value="7" <?= $numero_mes==7?"selected":""; ?>>Jul</option>
+                <option value="8" <?= $numero_mes==8?"selected":""; ?>>Ago</option>
+                <option value="9" <?= $numero_mes==9?"selected":""; ?>>Set</option>
+                <option value="10" <?= $numero_mes==10?"selected":""; ?>>Out</option>
+                <option value="11" <?= $numero_mes==11?"selected":""; ?>>Nov</option>
+                <option value="12" <?= $numero_mes==12?"selected":""; ?>>Dez</option>
             </select>
         </div>
     </div>
@@ -30,7 +31,7 @@
             </div>
             <select class="form-control campo-ajax" name="slcAno" id="slcAno">
                 <?php for($ano=(date_format($hoje, "Y")+2); $ano >= 2019; $ano--): ?>
-                    <option value="<?= $ano; ?>" <?= date_format($mes, "Y")==$ano?"selected":""; ?>><?= $ano; ?></option>
+                    <option value="<?= $ano; ?>" <?= date_format($hoje, "Y")==$ano?"selected":""; ?>><?= $ano; ?></option>
                 <?php endfor; ?>
             </select>
         </div>
@@ -66,7 +67,7 @@
                     <span class="material-icons">swap_vert</span>
                 </th>
                 <th scope="col" onclick="ordenarTabela(this)">
-                    C/D
+                    Classe
                     <span class="material-icons">swap_vert</span>
                 </th>
                 <th scope="col" onclick="ordenarTabela(this)">
@@ -87,21 +88,20 @@
         </thead>
         <tbody>
             <?php
-            $n = 0;
             foreach($contas as $conta): ?>
                 <tr>
-                    <th scope="row"><?= ++$n; ?></th>
-                    <td><?= $conta->receita?"C":"D"; ?></td>
-                    <td><?= $conta->nome; ?></td>
-                    <td><?= "R$ {$conta->valor}"; ?></td>
-                    <td><?= date_format($conta->dataAplicacao, 'd/m/Y'); ?></td>
+                    <th scope="row"><?= $conta->getId(); ?></th>
+                    <td><?= $conta->getClasse() ?></td>
+                    <td><?= $conta->getNome(); ?></td>
+                    <td><?= "R$ {$conta->getValor()}"; ?></td>
+                    <td><?= date_format($conta->getDataAplicacao(), 'd/m/Y'); ?></td>
                     <td>
-                        <a href="/contas/editar/<?= $conta->id; ?>" class="btn btn-warning">
+                        <a href="/contas/editar/<?= $conta->getId(); ?>" class="btn btn-warning">
                             <span class="material-icons">edit</span>
                         </a>
                     </td>
                     <td>
-                        <a href="/contas/excluir/<?= $conta->id; ?>" class="btn btn-danger">
+                        <a href="/contas/excluir/<?= $conta->getId(); ?>" class="btn btn-danger">
                         <span class="material-icons">delete_sweep</span>
                         </a>
                     </td>
@@ -110,6 +110,6 @@
         </tbody>
     </table>
 </div>
-<p>Total de receitas: R$ <?=number_format($contas->totalReceitas, 2, ',', '.'); ?></p>
-<p>Total de despezas: R$ <?=number_format($contas->totalDespezas, 2, ',', '.'); ?></p>
-<p>Total geral: R$ <?=number_format($contas->total, 2, ',', '.'); ?></p>
+<p>Total de receitas: R$ <span id="totalReceitas"><?=number_format($contas->totalReceitas, 2, ',', '.'); ?></span></p>
+<p>Total de despezas: R$ <span id="totalDespezas"><?=number_format($contas->totalDespezas, 2, ',', '.'); ?></span></p>
+<p>Total geral: R$ <span id="totalGeral"><?=number_format($contas->total, 2, ',', '.'); ?></span></p>

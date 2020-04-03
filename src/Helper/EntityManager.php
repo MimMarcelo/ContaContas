@@ -25,7 +25,7 @@ class EntityManager
 
     private static function createEntityManager(): \Doctrine\ORM\EntityManager
     {
-        $isDevMode = false;
+        $isDevMode = true;
         $proxyDir = null;
         $cache = new \Doctrine\Common\Cache\ArrayCache;
         $useSimpleAnnotationReader = true;

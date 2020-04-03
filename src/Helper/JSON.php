@@ -18,7 +18,7 @@ trait JSON{
             foreach ($this as $item) {
                 $lista[] = $item->toJSON();
             }
-            return json_encode(array('lista' => $lista));
+            return json_encode(array($this->getClassName() => get_object_vars($this), 'lista' => $lista));
         }
         return json_encode(array($this->getClassName() => get_object_vars($this)));
     }

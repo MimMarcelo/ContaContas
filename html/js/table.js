@@ -21,9 +21,9 @@ function novaLinha(n, json) {
     if(mes<10) mes = "0"+mes;
 
     $(thN).text(n);
-    $(tdReceita).text(json.Conta.receita?"C":"D");
+    $(tdReceita).text(json.Conta.classe.sigla);
     $(tdNome).text(json.Conta.nome);
-    $(tdValor).text(json.Conta.valor);
+    $(tdValor).text("R$ " + json.Conta.valor);
     $(tdData).text(dia+"/"+mes+"/"+dataAplicacao.getFullYear());
 
     $(aEditar).addClass("btn");
@@ -61,7 +61,11 @@ function atualizarTabelaContas(data) {
         var linha = novaLinha(++n, JSON.parse(this));
         t.append(linha);
     });
-
+    // console.log(json.Periodo);
+    // console.log($("#totalReceitas"));
+    $("#totalReceitas").text(json.Periodo.totalReceitas);
+    $("#totalDespezas").text(json.Periodo.totalDespezas);
+    $("#totalGeral").text(json.Periodo.total);
 }
 
 /* Função de ordenação de tabelas *********************************************
