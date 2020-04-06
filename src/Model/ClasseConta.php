@@ -109,7 +109,7 @@ class ClasseConta
         $entityManager = EntityManager::getEntityManager();
         $repositorio = $entityManager->getRepository(ClasseConta::class);
 
-        return $repositorio->findAll();
+        return $repositorio->findBy(array(), array('sigla'=>'asc'));;
     }
 
     public static function get($id): ?ClasseConta

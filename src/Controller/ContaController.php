@@ -29,11 +29,13 @@ class ContaController extends BaseController
             $this->salvar();
             break;
 
-            case 'listar_json':
-            $json = true;
             case '':
             case 'listar':
-            $this->listar($requisicao, $json);
+            $this->listar();
+            break;
+
+            case 'listar_json':
+            $this->listarJSON($requisicao);
             break;
         }
     }
@@ -62,7 +64,17 @@ class ContaController extends BaseController
         $this->showView("contas/form.php", $dados);
     }
 
-    private function listar($periodo, $json): void
+    private function listar(): void
+    {
+        $dados = array(
+            'titulo' => 'Listar contas',
+            'contas' => $contas,
+            'mes' => new \DateTime()
+        );
+        $this->showView("contas/listar.php", $dados);
+    }
+
+    private function listarJSON($periodo): void
     {
         $mes = array_shift($periodo);
         $ano = array_shift($periodo);
@@ -84,17 +96,7 @@ class ContaController extends BaseController
 
         $contas = Conta::getAll($dInicial, $dFinal);
 
-        if($json){
-            echo $contas->toJSON();
-            return;
-        }
-
-        $dados = array(
-            'titulo' => 'Listar contas',
-            'contas' => $contas,
-            'mes' => $date
-        );
-        $this->showView("contas/listar.php", $dados);
+        echo $contas->toJSON();
     }
 
     private function salvar(): void

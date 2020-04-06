@@ -1,5 +1,5 @@
 
-function novaLinha(n, json) {
+function novaLinha(json) {
 
     var linha = $("<tr>");
     var thN = $("<th>");
@@ -20,7 +20,7 @@ function novaLinha(n, json) {
     var mes = dataAplicacao.getMonth()+1;
     if(mes<10) mes = "0"+mes;
 
-    $(thN).text(n);
+    $(thN).text(json.Conta.id);
     $(tdReceita).text(json.Conta.classe.sigla);
     $(tdNome).text(json.Conta.nome);
     $(tdValor).text("R$ " + json.Conta.valor);
@@ -56,9 +56,8 @@ function atualizarTabelaContas(data) {
     var json = JSON.parse(data);
     var t = $('tbody')
     t.empty();
-    var n = 0;
     $(json.lista).each(function(){
-        var linha = novaLinha(++n, JSON.parse(this));
+        var linha = novaLinha(JSON.parse(this));
         t.append(linha);
     });
     // console.log(json.Periodo);
@@ -66,6 +65,13 @@ function atualizarTabelaContas(data) {
     $("#totalReceitas").text(json.Periodo.totalReceitas);
     $("#totalDespezas").text(json.Periodo.totalDespezas);
     $("#totalGeral").text(json.Periodo.total);
+    var totais = $("#totais");
+    totais.empty();
+    for(classe in json.Periodo.totalPorClasses){
+        var li = $("<li>");
+        li.text('Total com "' + classe +'": ' + json.Periodo.totalPorClasses[classe]);
+        totais.append(li);
+    }
 }
 
 /* Função de ordenação de tabelas *********************************************

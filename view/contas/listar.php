@@ -1,4 +1,12 @@
-<?php $hoje = new \DateTime(); ?>
+<?php
+$hoje = new \DateTime();
+if(isset($mes)): ?>
+    <script>
+        window.onload = function(){
+            getJSON("/contas/listar_json/<?= date_format($mes, 'm') ?>/<?= date_format($mes, 'Y') ?>", "atualizarTabelaContas");
+        }
+    </script>
+<?php endif; ?>
 <form action="/contas/listar_json" data-target="atualizarTabelaContas">
     <div class="form-group">
         <label for="slcMes">Mes</label>
@@ -7,7 +15,7 @@
                 <span class="input-group-text material-icons">event_note</span>
             </div>
             <select class="form-control campo-ajax" name="slcMes" id="slcMes">
-                <?php $numero_mes = date_format($hoje, "m"); ?>
+                <?php $numero_mes = date_format($mes, "m"); ?>
                 <option value="1" <?= $numero_mes==1?"selected":""; ?>>Jan</option>
                 <option value="2" <?= $numero_mes==2?"selected":""; ?>>Fev</option>
                 <option value="3" <?= $numero_mes==3?"selected":""; ?>>Mar</option>
@@ -31,7 +39,7 @@
             </div>
             <select class="form-control campo-ajax" name="slcAno" id="slcAno">
                 <?php for($ano=(date_format($hoje, "Y")+2); $ano >= 2019; $ano--): ?>
-                    <option value="<?= $ano; ?>" <?= date_format($hoje, "Y")==$ano?"selected":""; ?>><?= $ano; ?></option>
+                    <option value="<?= $ano; ?>" <?= date_format($mes, "Y")==$ano?"selected":""; ?>><?= $ano; ?></option>
                 <?php endfor; ?>
             </select>
         </div>
@@ -86,30 +94,12 @@
                 <th scope="col">Excluir</th>
             </tr>
         </thead>
-        <tbody>
-            <?php
-            foreach($contas as $conta): ?>
-                <tr>
-                    <th scope="row"><?= $conta->getId(); ?></th>
-                    <td><?= $conta->getClasse() ?></td>
-                    <td><?= $conta->getNome(); ?></td>
-                    <td><?= "R$ {$conta->getValor()}"; ?></td>
-                    <td><?= date_format($conta->getDataAplicacao(), 'd/m/Y'); ?></td>
-                    <td>
-                        <a href="/contas/editar/<?= $conta->getId(); ?>" class="btn btn-warning">
-                            <span class="material-icons">edit</span>
-                        </a>
-                    </td>
-                    <td>
-                        <a href="/contas/excluir/<?= $conta->getId(); ?>" class="btn btn-danger">
-                        <span class="material-icons">delete_sweep</span>
-                        </a>
-                    </td>
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
+        <tbody></tbody>
     </table>
 </div>
-<p>Total de receitas: R$ <span id="totalReceitas"><?=number_format($contas->totalReceitas, 2, ',', '.'); ?></span></p>
-<p>Total de despezas: R$ <span id="totalDespezas"><?=number_format($contas->totalDespezas, 2, ',', '.'); ?></span></p>
-<p>Total geral: R$ <span id="totalGeral"><?=number_format($contas->total, 2, ',', '.'); ?></span></p>
+<div>
+    <p>Total de receitas: R$ <span id="totalReceitas"><?=number_format($contas->totalReceitas, 2, ',', '.'); ?></span></p>
+    <p>Total de despezas: R$ <span id="totalDespezas"><?=number_format($contas->totalDespezas, 2, ',', '.'); ?></span></p>
+    <p>Total geral: R$ <span id="totalGeral"><?=number_format($contas->total, 2, ',', '.'); ?></span></p>
+    <ul id="totais"></ul>
+</div>

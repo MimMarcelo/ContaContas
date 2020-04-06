@@ -39,7 +39,7 @@
                 $classe_id =  isset($conta)?$conta->getClasse()->getId():"";
                 foreach (MimMarcelo\ContaContas\Model\ClasseConta::getAll() as $classe):
                 ?>
-                <option value="<?= $classe->getId(); ?>" <?= $classe_id==$classe->getId()?"selected":""; ?>><?= $classe->getNome(); ?></option>
+                <option value="<?= $classe->getId(); ?>" <?= $classe_id==$classe->getId()?"selected":""; ?>><?= $classe->getSigla() . " - " . $classe->getNome(); ?></option>
             <?php endforeach; ?>
             </select>
         </div>

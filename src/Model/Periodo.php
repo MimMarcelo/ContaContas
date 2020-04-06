@@ -12,10 +12,12 @@ class Periodo extends IteratorAdapter{
     private $total;
     private $totalDespezas;
     private $totalReceitas;
+    private $totalPorClasses;
 
     public function __construct(array $lista = array())
     {
         parent::__construct($lista);
+        $this->totalPorClasses = array();
         $this->getTotal();
     }
 
@@ -31,17 +33,15 @@ class Periodo extends IteratorAdapter{
 
         /** @var $conta Conta */
         foreach ($this as $conta) {
-            switch($conta->getClasse()->getTipo()){
-                case 'C':
+            $this->totalPorClasses[$conta->getClasse()->getSigla()] += $conta->getValor();
+            if($conta->getClasse()->getTipo() === 'C'){
                 $this->total += $conta->getValor();
                 $this->totalReceitas += $conta->getValor();
-                break;
-                case 'D':
+            }
+            else if($conta->getClasse()->getTipo() === 'D'){
                 $this->total -= $conta->getValor();
                 $this->totalDespezas += $conta->getValor();
-                break;
             }
         }
     }
 }
-?>
