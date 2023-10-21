@@ -12,7 +12,9 @@ class BillController extends Controller
      */
     public function index()
     {
-        return view("bills.index", ["bills" => Bill::all()]);
+        $bills = Bill::all();
+        $total = $bills->where("kind","=","D")->sum("value");
+        return view("bills.index", ["bills" => $bills, "total" => $total]);
     }
 
     /**

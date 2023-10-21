@@ -4,15 +4,23 @@
 
 @section('content')
     <table class="table">
-        <tr>
-            <th>#</th>
-            <th>Kind</th>
-            <th>Name</th>
-            <th>Value</th>
-            <th>Entry</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </tr>
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Kind</th>
+                <th>Name</th>
+                <th>Value</th>
+                <th>Entry</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </thead>
+        <tfoot>
+            <tr>
+                <th colspan="3">Total</th>
+                <th colspan="4">{{$total}}</th>
+            </tr>
+        </tfoot>
         @foreach ($bills as $b)
             <tr>
                 <td>{{$b->id}}</td>
