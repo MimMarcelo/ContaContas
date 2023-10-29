@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\SourceController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,12 +18,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
+/*
+MUDE A PÁGINA QUE SERÁ ABERTA APÓS LOGIN NO PROVEDOR:
+App\Providers\RouteServiceProvider
+Propriedade HOME
+*/
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -32,3 +34,5 @@ Route::middleware('auth')->group(function () {
 require __DIR__.'/auth.php';
 
 Route::resource('bills', BillController::class)->middleware('auth');
+// Route::resource('bills', BillController::class);
+Route::resource('sources', SourceController::class)->middleware('auth');

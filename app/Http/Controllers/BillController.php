@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BillController extends Controller
 {
@@ -12,7 +13,11 @@ class BillController extends Controller
      */
     public function index()
     {
-        return view("bills.index", ["bills" => Bill::all()]);
+        $bills = Auth::user()->bills;
+        $total = [];
+        $total["debit"] = Bill::getTotal($bills);
+        $total["credit"] = Bill::getTotal($bills, 'C');
+        return view("bills.index", ["bills" => $bills, "total" => $total]);
     }
 
     /**
@@ -20,7 +25,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        return view("bills.create");
+        return view("bills.create", ["sources" => Auth::user()->sources]);
     }
 
     /**
@@ -29,7 +34,9 @@ class BillController extends Controller
     public function store(Request $request)
     {
         $bill = Bill::loadFromRequest($request);
-        $bill->save();
+    
+        Auth::user()->bills()->save($bill);
+    
         session()->flash('message', $bill->name.'\'bill successfully created');
         return redirect()->route("bills.index");
     }
@@ -47,7 +54,7 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        return view("bills.create", ["bill" => $bill, "fields" => $bill->fillable]);
+        return view("bills.create", ["bill" => $bill, "sources" => Auth::user()->sources]);
     }
 
     /**
@@ -56,7 +63,9 @@ class BillController extends Controller
     public function update(Request $request, Bill $bill)
     {
         $bill = Bill::loadFromRequest($request, $bill);
-        $bill->update();
+
+        Auth::user()->bills()->save($bill);
+        
         session()->flash('message', $bill->name.'\'bill successfully updated');
         return redirect()->route("bills.index");
     }

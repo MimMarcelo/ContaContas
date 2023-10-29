@@ -2,7 +2,7 @@
 
 <?php 
 $edit = isset($bill);
-$kinds = ["values" => ["C", "D"], "options" => ["Credit", "Debit"]];
+$kinds = ["values" => ["D", "C"], "options" => ["Debit", "Credit"]];
 
 ?>
 @section('title', ($edit?'Update':'Create').' bill')
@@ -39,8 +39,19 @@ $kinds = ["values" => ["C", "D"], "options" => ["Credit", "Debit"]];
                 {{ $edit? "value=".$bill->value:"" }}>
         </div>
         <div class="form-group">
+            <label for="to">To: </label>
+            <select name="to" id="to" class="form-control">
+                @foreach ($sources as $s)
+                    <option value="{{$s->id}}"
+                        {{ $edit?$bill->toSelected($s->id):"" }}>
+                        {{$s->name}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
             <label for="entry">Entry: </label>
-            <input type="date" name="entry" id="entry" value="{{date('Y-m-d')}}" class="form-control"
+            <input type="date" name="entry" id="entry" class="form-control"
                 {{ $edit? "value=".$bill->entry:"" }}>
         </div>
         <input type="submit" value="Save" class="btn btn-primary">

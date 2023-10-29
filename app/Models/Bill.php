@@ -2,32 +2,39 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Bill extends Model
+class Bill extends Base
 {
-    use HasFactory;
     public $fillable = [
         'kind',
         'name',
         'value',
         'entry',
+        'to'
     ];
     
-    public static function loadFromRequest(Request $request, Bill $bill = null): self
-    {
-        if($bill==null) 
-            $bill = new Bill();
-        foreach ($bill->fillable as $i) {
-            $bill->$i = $request->$i;
-        }
-        return $bill;
-    }
-
     public function selected($value): string
     {
         return $this->kind==$value?"selected":"";
+    }
+
+    public function toSelected($value): string
+    {
+        return $this->to==$value?"selected":"";
+    }
+
+    public static function getTotal(mixed $bills, string $kind = 'D'){
+        return $bills->where("kind","=",$kind)->sum("value");
+    }
+
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function to(): Source
+    {
+        return Source::find($this->to);
     }
 }
