@@ -11,11 +11,17 @@ class Bill extends Base
         'name',
         'value',
         'entry',
+        'to'
     ];
     
     public function selected($value): string
     {
         return $this->kind==$value?"selected":"";
+    }
+
+    public function toSelected($value): string
+    {
+        return $this->to==$value?"selected":"";
     }
 
     public static function getTotal(mixed $bills, string $kind = 'D'){
@@ -25,5 +31,10 @@ class Bill extends Base
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function to(): Source
+    {
+        return Source::find($this->to);
     }
 }

@@ -39,6 +39,17 @@ $kinds = ["values" => ["D", "C"], "options" => ["Debit", "Credit"]];
                 {{ $edit? "value=".$bill->value:"" }}>
         </div>
         <div class="form-group">
+            <label for="to">To: </label>
+            <select name="to" id="to" class="form-control">
+                @foreach ($sources as $s)
+                    <option value="{{$s->id}}"
+                        {{ $edit?$bill->toSelected($s->id):"" }}>
+                        {{$s->name}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
             <label for="entry">Entry: </label>
             <input type="date" name="entry" id="entry" class="form-control"
                 {{ $edit? "value=".$bill->entry:"" }}>

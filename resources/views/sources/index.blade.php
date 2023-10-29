@@ -33,7 +33,7 @@
             </tr>
         @endforeach
     </table>
-    <button type="button" title="Add new Source"
+    <button type="button" title="Add new Source" id="add"
         class="fixed-bottom btn btn-primary fixed-button material-symbols-outlined"
         data-bs-toggle="modal" data-bs-target="#myModal">
         add

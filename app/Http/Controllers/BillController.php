@@ -25,7 +25,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        return view("bills.create");
+        return view("bills.create", ["sources" => Auth::user()->sources]);
     }
 
     /**
@@ -54,7 +54,7 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        return view("bills.create", ["bill" => $bill, "fields" => $bill->fillable]);
+        return view("bills.create", ["bill" => $bill, "sources" => Auth::user()->sources]);
     }
 
     /**
