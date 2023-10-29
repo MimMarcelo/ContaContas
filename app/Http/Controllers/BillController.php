@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Bill;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class BillController extends Controller
 {
@@ -12,8 +13,10 @@ class BillController extends Controller
      */
     public function index()
     {
-        $bills = Bill::all();
-        $total = $bills->where("kind","=","D")->sum("value");
+        $bills = Auth::user()->bills;
+        $total = [];
+        $total["debit"] = Bill::getTotal($bills);
+        $total["credit"] = Bill::getTotal($bills, 'C');
         return view("bills.index", ["bills" => $bills, "total" => $total]);
     }
 
@@ -31,7 +34,9 @@ class BillController extends Controller
     public function store(Request $request)
     {
         $bill = Bill::loadFromRequest($request);
-        $bill->save();
+    
+        Auth::user()->bills()->save($bill);
+    
         session()->flash('message', $bill->name.'\'bill successfully created');
         return redirect()->route("bills.index");
     }
@@ -58,7 +63,9 @@ class BillController extends Controller
     public function update(Request $request, Bill $bill)
     {
         $bill = Bill::loadFromRequest($request, $bill);
-        $bill->update();
+
+        Auth::user()->bills()->save($bill);
+        
         session()->flash('message', $bill->name.'\'bill successfully updated');
         return redirect()->route("bills.index");
     }

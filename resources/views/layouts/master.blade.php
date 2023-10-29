@@ -7,8 +7,10 @@
     <title>Conta Conta$: @yield('title')</title>
     <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('/css/material-icons.css') }}">
+    <link rel="stylesheet" href="{{ asset('/css/detalhes.css') }}">
     <script src="{{ asset('/js/jquery-3.7.1.min.js')}}"></script>
     <script src="{{ asset('/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="{{ asset('/js/modal.js')}}" defer></script>
 </head>
 <body>
     <header>
@@ -28,6 +30,8 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                   <li><a class="dropdown-item" href="{{ route('bills.index')}}">List</a></li>
                   <li><a class="dropdown-item" href="{{ route('bills.create')}}">Create</a></li>
+                  <li><a class="dropdown-item" href="{{ route('sources.index')}}">Sources</a></li>
+                  <li><a class="dropdown-item" href="{{ route('sources.create')}}">Create Source</a></li>
                 </ul>
               </li>
               @if (Auth::check())

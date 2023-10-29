@@ -3,6 +3,35 @@
 @section('title', 'Home')
 
 @section('content')
+    <div class="row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <div class="card text-bg-warning" style="width: 18rem;">
+                <div class="card-header">
+                    99Pop
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        Credit R$ {{$total["credit"]}}
+                    </li>
+                    <li class="list-group-item">
+                        Debit R$ {{$total["debit"]}}
+                    </li>
+                    <li class="list-group-item">
+                        Total R$ {{$total["credit"] - $total["debit"]}}
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+            </div>
+        </div>
+    </div>
     <table class="table">
         <thead>
             <tr>
@@ -18,7 +47,7 @@
         <tfoot>
             <tr>
                 <th colspan="3">Total</th>
-                <th colspan="4">{{$total}}</th>
+                <th colspan="4">{{$total["debit"]}}</th>
             </tr>
         </tfoot>
         @foreach ($bills as $b)
