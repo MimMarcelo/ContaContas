@@ -12,13 +12,15 @@ class Base extends Model
 {
     use HasFactory;
 
-    public static function loadFromRequest(Request $request, Bill $bill = null): self
+    public static function loadFromRequest(Request $request, mixed $object = null): self
     {
-        if($bill==null) 
-            $bill = new Bill();
-        foreach ($bill->fillable as $i) {
-            $bill->$i = $request->$i;
+        if($object==null) {
+            $className = get_called_class();
+            $object = new $className();
         }
-        return $bill;
+        foreach ($object->fillable as $i) {
+            $object->$i = $request->$i;
+        }
+        return $object;
     }
 }

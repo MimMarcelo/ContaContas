@@ -22,7 +22,7 @@ class SourceController extends Controller
      */
     public function create()
     {
-        return view("sources.index", ["create" => true]);
+        return view("sources.create");
     }
 
     /**
@@ -30,7 +30,10 @@ class SourceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $source = Source::loadFromRequest($request);
+        Auth::user()->sources()->save($source);
+        session()->flash('message', 'Source \''.$source->name.'\' successfully created');
+        return redirect()->route("sources.index");
     }
 
     /**
@@ -38,7 +41,7 @@ class SourceController extends Controller
      */
     public function show(Source $source)
     {
-        //
+        return redirect()->route("sources.index");
     }
 
     /**
@@ -46,7 +49,7 @@ class SourceController extends Controller
      */
     public function edit(Source $source)
     {
-        //
+        return view("sources.create", ["source" => $source]);
     }
 
     /**
@@ -54,7 +57,12 @@ class SourceController extends Controller
      */
     public function update(Request $request, Source $source)
     {
-        //
+        $source = Source::loadFromRequest($request, $source);
+
+        Auth::user()->sources()->save($source);
+        
+        session()->flash('message', $source->name.'\'source successfully updated');
+        return redirect()->route("sources.index");
     }
 
     /**
@@ -62,6 +70,8 @@ class SourceController extends Controller
      */
     public function destroy(Source $source)
     {
-        //
+        $source->delete();
+        session()->flash('message', $source->name.'\'source successfully deleted');
+        return redirect()->route("sources.index");
     }
 }

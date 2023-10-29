@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Source extends Base
 {
     public $fillable = [
+        'kind',
         'name'
     ];
 

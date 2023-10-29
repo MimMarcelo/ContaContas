@@ -7,8 +7,7 @@
         <thead>
             <tr>
                 <th>#</th>
-                <th>Kind</th>
-                <th>Acronym</th>
+                <th>kind</th>
                 <th>Name</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -18,11 +17,7 @@
             <tr>
                 <td>{{$b->id}}</td>
                 <td>{{$b->kind}}</td>
-                <td>
-                    <a href="{{route('sources.show', $b)}}">{{$b->name}}</a>
-                </td>
-                <td>{{sprintf("R$ %0.2f", $b->value)}}</td>
-                <td>{{date_format(new DateTime($b->entry), "d/m/y")}}</td>
+                <td>{{$b->name}}</td>
                 <td>
                     <a href="{{route('sources.edit', $b)}}" 
                         class="material-symbols-outlined btn btn-warning">edit</a>
@@ -55,14 +50,18 @@
                     method="post" class="container">
                     @csrf
                     <div class="mb-3">
-                        <label for="recipient-name" class="col-form-label">Source:</label>
-                        <input type="text" class="form-control form-focus" id="recipient-name" name="name">
+                        <label for="txtKind" class="col-form-label">Kind:</label>
+                        <input type="text" class="form-control form-focus" id="txtKind" name="kind">
+                    </div>
+                    <div class="mb-3">
+                        <label for="txtName" class="col-form-label">Source:</label>
+                        <input type="text" class="form-control" id="txtName" name="name">
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-primary">Save</button>
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     </div>
                 </form>
-            </div>
-            <div class="modal-footer">
-              <button type="button" class="btn btn-primary">Save</button>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
             </div>
           </div>
         </div>
