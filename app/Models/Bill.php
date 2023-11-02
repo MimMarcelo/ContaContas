@@ -15,16 +15,11 @@ class Bill extends Base
         'from',
     ];
     
-    public function selected($value): string
+    public function selected($variable, $id): string
     {
-        return $this->kind==$value?"selected":"";
+        return $this->$variable==$id?"selected":"";
     }
-
-    public function toSelected($value): string
-    {
-        return $this->to==$value?"selected":"";
-    }
-
+    
     public static function getTotal(mixed $bills, string $kind = 'D'){
         return $bills->where("kind","=",$kind)->sum("value");
     }
@@ -40,7 +35,8 @@ class Bill extends Base
             if($this->to instanceof Source){
                 return $this->to;
             }
-            return Source::find($this->to);
+            $this->to = Source::find($this->to);
+            return $this->to;
         }
         return new Source(["name" => ""]);
     }
@@ -51,7 +47,8 @@ class Bill extends Base
             if($this->from instanceof Source){
                 return $this->from;
             }
-            return Source::find($this->from);
+            $this->from = Source::find($this->from);
+            return $this->from;
         }
         return new Source(["name" => ""]);
 

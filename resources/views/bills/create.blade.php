@@ -22,7 +22,7 @@ $kinds = ["values" => ["D", "C"], "options" => ["Debit", "Credit"]];
             <select name="kind" id="kind" class="form-control" autofocus>
                 @for ($i = 0; $i < count($kinds["values"]); $i++)
                     <option value='{{$kinds["values"][$i]}}'
-                        {{ $edit?$bill->selected($kinds["values"][$i]):"" }}>
+                        {{ $edit?$bill->selected("kind", $kinds["values"][$i]):"" }}>
                         {{ $kinds["options"][$i] }}
                     </option>
                 @endfor
@@ -39,11 +39,23 @@ $kinds = ["values" => ["D", "C"], "options" => ["Debit", "Credit"]];
                 {{ $edit? "value=".$bill->value:"" }}>
         </div>
         <div class="form-group">
+            <label for="from">From: </label>
+            <select name="from" id="from" class="form-control">
+                <option value="0" disabled>Select</option>
+                @foreach ($sources as $s)
+                    <option value="{{$s->id}}"
+                        {{ $edit?$bill->selected("from", $s->id):"" }}>
+                        {{$s->name}}
+                    </option>
+                @endforeach
+            </select>
+        </div>
+        <div class="form-group">
             <label for="to">To: </label>
             <select name="to" id="to" class="form-control">
                 @foreach ($sources as $s)
                     <option value="{{$s->id}}"
-                        {{ $edit?$bill->toSelected($s->id):"" }}>
+                        {{ $edit?$bill->selected("to", $s->id):"" }}>
                         {{$s->name}}
                     </option>
                 @endforeach
