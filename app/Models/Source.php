@@ -23,12 +23,22 @@ class Source extends Base
         return $this->belongsTo(User::class);
     }
 
+    public static function sources($user_id)
+    {
+        return DB::table("sources")
+                ->where("user_id", "=", $user_id)
+                ->orderBy("kind")
+                ->orderBy("name")
+                ->get();
+    }
+
     public static function kinds($user_id)
     {
         return DB::table("sources")
                 ->select("kind")
                 ->where("user_id", "=", $user_id)
                 ->distinct()
+                ->orderBy("kind")
                 ->get();
     }
 }

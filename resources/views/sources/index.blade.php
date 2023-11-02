@@ -13,17 +13,17 @@
                 <th>Delete</th>
             </tr>
         </thead>
-        @foreach ($sources as $b)
+        @foreach ($sources as $s)
             <tr>
-                <td>{{$b->id}}</td>
-                <td>{{$b->kind}}</td>
-                <td>{{$b->name}}</td>
+                <td>{{$s->id}}</td>
+                <td>{{$s->kind}}</td>
+                <td>{{$s->name}}</td>
                 <td>
-                    <a href="{{route('sources.edit', $b)}}" 
+                    <a href="{{route('sources.edit', $s->id)}}" 
                         class="material-symbols-outlined btn btn-warning">edit</a>
                 </td>
                 <td>
-                    <form action="{{route('sources.destroy', $b->id)}}" method="POST">
+                    <form action="{{route('sources.destroy', $s->id)}}" method="POST">
                         @csrf
                         @method("DELETE")
                         <input type="submit" value="delete"

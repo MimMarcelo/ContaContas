@@ -13,7 +13,7 @@ class SourceController extends Controller
      */
     public function index()
     {
-        $sources = Auth::user()->sources;
+        $sources = Source::sources(Auth::user()->id);
         $kinds = Source::kinds(Auth::user()->id);
         return view("sources.index", ["sources" => $sources, "kinds" => $kinds, "id" => Auth::user()->id]);
     }
