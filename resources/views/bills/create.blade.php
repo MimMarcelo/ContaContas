@@ -64,7 +64,7 @@ $kinds = ["values" => ["D", "C"], "options" => ["Debit", "Credit"]];
         <div class="form-group">
             <label for="entry">Entry: </label>
             <input type="date" name="entry" id="entry" class="form-control"
-                {{ $edit? "value=".$bill->entry:"" }}>
+            value={{ $edit?$bill->entry:date('Y-m-d') }}>
         </div>
         <input type="submit" value="Save" class="btn btn-primary">
         <a href="{{ route('bills.index') }}" class="btn btn-secondary">Cancel</a>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bill;
+use App\Models\Source;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ class BillController extends Controller
      */
     public function create()
     {
-        return view("bills.create", ["sources" => Auth::user()->sources]);
+        return view("bills.create", ["sources" => Source::sources(Auth::user()->id)]);
     }
 
     /**
@@ -54,7 +55,7 @@ class BillController extends Controller
      */
     public function edit(Bill $bill)
     {
-        return view("bills.create", ["bill" => $bill, "sources" => Auth::user()->sources]);
+        return view("bills.create", ["bill" => $bill, "sources" => Source::sources(Auth::user()->id)]);
     }
 
     /**
