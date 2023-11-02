@@ -11,7 +11,8 @@ class Bill extends Base
         'name',
         'value',
         'entry',
-        'to'
+        'to',
+        'from',
     ];
     
     public function selected($value): string
@@ -35,6 +36,24 @@ class Bill extends Base
 
     public function to(): Source
     {
-        return Source::find($this->to);
+        if(isset($this->to)){
+            if($this->to instanceof Source){
+                return $this->to;
+            }
+            return Source::find($this->to);
+        }
+        return new Source(["name" => ""]);
+    }
+
+    public function from(): Source
+    {
+        if(isset($this->from)){
+            if($this->from instanceof Source){
+                return $this->from;
+            }
+            return Source::find($this->from);
+        }
+        return new Source(["name" => ""]);
+
     }
 }

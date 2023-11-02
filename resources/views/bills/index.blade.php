@@ -40,6 +40,7 @@
                 <th>Name</th>
                 <th>Value</th>
                 <th>Entry</th>
+                <th>From</th>
                 <th>To</th>
                 <th>Edit</th>
                 <th>Delete</th>
@@ -60,7 +61,8 @@
                 </td>
                 <td>{{sprintf("R$ %0.2f", $b->value)}}</td>
                 <td>{{date_format(new DateTime($b->entry), "d/m/y")}}</td>
-                <td>{{is_null($b->to)?"":$b->to()->name}}</td>
+                <td>{{$b->from()->name}}</td>
+                <td>{{$b->to()->name}}</td>
                 <td>
                     <a href="{{route('bills.edit', $b)}}" 
                         class="material-symbols-outlined btn btn-warning">edit</a>
