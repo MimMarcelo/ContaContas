@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\DB;
 
 class Source extends Base
 {
@@ -20,5 +21,14 @@ class Source extends Base
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public static function kinds($user_id)
+    {
+        return DB::table("sources")
+                ->select("kind")
+                ->where("user_id", "=", $user_id)
+                ->distinct()
+                ->get();
     }
 }

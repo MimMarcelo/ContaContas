@@ -51,7 +51,13 @@
                     @csrf
                     <div class="mb-3">
                         <label for="txtKind" class="col-form-label">Kind:</label>
-                        <input type="text" class="form-control form-focus" id="txtKind" name="kind">
+                        <input type="text" list="kinds" class="form-control form-focus"
+                                id="txtKind" name="kind" autocomplete="off">
+                        <datalist id="kinds" name="kind">
+                            @foreach ($kinds as $s)
+                                <option value="{{$s->kind}}">{{$s->kind}}</option>
+                            @endforeach
+                        </datalist>
                     </div>
                     <div class="mb-3">
                         <label for="txtName" class="col-form-label">Source:</label>

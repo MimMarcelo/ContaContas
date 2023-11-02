@@ -14,7 +14,8 @@ class SourceController extends Controller
     public function index()
     {
         $sources = Auth::user()->sources;
-        return view("sources.index", ["sources" => $sources]);
+        $kinds = Source::kinds(Auth::user()->id);
+        return view("sources.index", ["sources" => $sources, "kinds" => $kinds, "id" => Auth::user()->id]);
     }
 
     /**
