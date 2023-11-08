@@ -15,10 +15,8 @@ class BillController extends Controller
     public function index()
     {
         $bills = Auth::user()->bills;
-        $total = [];
-        $total["debit"] = Bill::getTotal($bills);
-        $total["credit"] = Bill::getTotal($bills, 'C');
-        return view("bills.index", ["bills" => $bills, "total" => $total]);
+        $sources = Bill::getCCTotals($bills);
+        return view("bills.index", ["bills" => $bills, "sources" => $sources]);
     }
 
     /**

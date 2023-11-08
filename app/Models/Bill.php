@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Bill extends Base
 {
     public $fillable = [
-        'kind',
         'name',
         'value',
         'entry',
@@ -20,8 +19,15 @@ class Bill extends Base
         return $this->$variable==$id?"selected":"";
     }
     
-    public static function getTotal(mixed $bills, string $kind = 'D'){
-        return $bills->where("kind","=",$kind)->sum("value");
+    public static function getCCTotals(mixed $bills, string $kind = 'D'){
+        $sources = [];
+        foreach($bills as $b){
+            if(!isset($sources[$b->to()->name])) $sources[$b->to()->name] = 0;
+            if(!isset($sources[$b->from()->name])) $sources[$b->from()->name] = 0;
+            $sources[$b->to()->name] = $sources[$b->to()->name] + $b->value;
+            $sources[$b->from()->name] = $sources[$b->from()->name] - $b->value;
+        }
+        return $sources;
     }
 
     public function user(): BelongsTo

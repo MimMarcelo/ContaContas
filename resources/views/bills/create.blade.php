@@ -1,10 +1,6 @@
 @extends('layouts.master')
 
-<?php 
-$edit = isset($bill);
-$kinds = ["values" => ["D", "C"], "options" => ["Debit", "Credit"]];
-
-?>
+<?php $edit = isset($bill); ?>
 @section('title', ($edit?'Update':'Create').' bill')
 
 @section('content')
@@ -17,17 +13,6 @@ $kinds = ["values" => ["D", "C"], "options" => ["Debit", "Credit"]];
             method="post" class="container">
         @endif
         @csrf
-        <div class="form-group">
-            <label for="kind">Kind: </label>
-            <select name="kind" id="kind" class="form-control" autofocus>
-                @for ($i = 0; $i < count($kinds["values"]); $i++)
-                    <option value='{{$kinds["values"][$i]}}'
-                        {{ $edit?$bill->selected("kind", $kinds["values"][$i]):"" }}>
-                        {{ $kinds["options"][$i] }}
-                    </option>
-                @endfor
-            </select>
-        </div>
         <div class="form-group">
             <label for="name">Name: </label>
             <input type="text" name="name" id="name" class="form-control"
