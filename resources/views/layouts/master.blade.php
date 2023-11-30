@@ -5,11 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Conta Conta$: @yield('title')</title>
-    <link rel="stylesheet" href="{{ asset('/css/bootstrap.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('/css/material-icons.css') }}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="{{ asset('/css/detalhes.css') }}">
-    <script src="{{ asset('/js/jquery-3.7.1.min.js')}}"></script>
-    <script src="{{ asset('/js/bootstrap.bundle.min.js')}}"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.3.0/jquery.form.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('/js/modal.js')}}" defer></script>
 </head>
 <body>
@@ -62,12 +63,12 @@
           </div>
         </div>
       </nav>
-    @if (session()->has('message'))
-        <div class="container alert alert-success alert-dismissible fade show" role="alert">
-            <strong>{{ session('message') }}</strong>
+    {{-- @if (session()->has('message')) --}}
+        <div id="message-box" class="container alert alert-success alert-dismissible fade show d-none" role="alert">
+            <strong id="message"></strong>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    @endif
+    {{-- @endif --}}
     <main class="container">
         @yield('content')
     </main>

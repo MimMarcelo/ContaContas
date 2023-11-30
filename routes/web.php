@@ -3,6 +3,7 @@
 use App\Http\Controllers\BillController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SourceController;
+use App\Http\Controllers\CurrencyController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,3 +37,4 @@ require __DIR__.'/auth.php';
 Route::resource('bills', BillController::class)->middleware('auth');
 // Route::resource('bills', BillController::class);
 Route::resource('sources', SourceController::class)->middleware('auth');
+Route::resource('currencies', CurrencyController::class)->middleware('auth');
