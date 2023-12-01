@@ -30,13 +30,16 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
-        $response = array();
-        $response["success"] = true;
+        if(self::keepOneDefault($request->default)){
+            $request->default = "true";
+        }
         
         $c = Currency::loadFromRequest($request);
-    
+        
         Auth::user()->currencies()->save($c);
     
+        $response = array();
+        $response["success"] = true;
         $response["message"] = "Currency \"" . $c->name . "\" successfully created";
         
         echo json_encode($response);
@@ -71,6 +74,18 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
-        //
+    }
+
+    private static function keepOneDefault($default){
+        if(count(Auth::user()->currencies()->get()) == 0){
+            return true;
+        }
+        if($default){
+            $d = Auth::user()->currencies()->where("default", "=","true")->first();
+            $d->default = null;
+            Auth::user()->currencies()->save($d);
+            return true;
+        }
+        return false;
     }
 }

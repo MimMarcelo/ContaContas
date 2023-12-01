@@ -28,14 +28,14 @@
                 <td>{{$c->default}}</td>
                 <td>
                     <a href="{{route('currencies.edit', $c)}}" 
-                        class="material-symbols-outlined btn btn-warning">edit</a>
+                        class="material-icons btn btn-warning">edit</a>
                 </td>
                 <td>
                     <form action="{{route('currencies.destroy', $c->id)}}" method="POST">
                         @csrf
                         @method("DELETE")
                         <input type="submit" value="delete"
-                            class="material-symbols-outlined btn btn-danger">
+                            class="material-icons btn btn-danger">
                     </form>
                 </td>
             </tr>
@@ -63,7 +63,7 @@
                         <input type="text" class="form-control" id="code" name="code">
                     </div>
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="default" name="default">
+                        <input type="checkbox" class="form-check-input" id="default" name="default" value="true">
                         <label class="form-check-label" for="default">Default Currency</label>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
