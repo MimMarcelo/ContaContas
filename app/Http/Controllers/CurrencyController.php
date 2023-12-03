@@ -74,6 +74,27 @@ class CurrencyController extends Controller
      */
     public function destroy(Currency $currency)
     {
+        $response = array();
+        if(count(Auth::user()->currencies()->get()) == 1){
+
+            $response["success"] = false;
+            $response["message"] = $currency->name . " currency can't be deleted. It is necessary to maintain at least one";
+        
+            echo json_encode($response);
+            return;
+        }
+        $currency->delete();
+        
+        if($currency->default){
+            $c = Auth::user()->currencies()->first();
+            $c->default = "true";
+            Auth::user()->currencies()->save($c);
+        }
+
+        $response["success"] = true;
+        $response["message"] = "Currency \"" . $currency->name ."\" successfully deleted";
+        
+        echo json_encode($response);
     }
 
     private static function keepOneDefault($default){
@@ -81,9 +102,9 @@ class CurrencyController extends Controller
             return true;
         }
         if($default){
-            $d = Auth::user()->currencies()->where("default", "=","true")->first();
-            $d->default = null;
-            Auth::user()->currencies()->save($d);
+            $c = Auth::user()->currencies()->where("default", "=","true")->first();
+            $c->default = null;
+            Auth::user()->currencies()->save($c);
             return true;
         }
         return false;
