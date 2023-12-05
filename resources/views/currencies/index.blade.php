@@ -27,7 +27,8 @@
       <td>{{$c->code}}</td>
       <td>{{$c->default}}</td>
       <td>
-        <a href="{{route('currencies.edit', $c)}}" class="material-icons btn btn-warning">edit</a>
+        <button type="button" class="btn btn-info material-icons" data-bs-toggle="modal" data-bs-target="#editCurrencyModal" data-name="{{$c->name}}" data-code="{{$c->code}}" data-default="{{$c->default}}" data-id="{{$c->id}}" class="material-icons btn btn-danger">edit</button>
+        {{-- <a href="{{route('currencies.edit', $c)}}" class="material-icons btn btn-warning">edit</a> --}}
       </td>
       <td>
         <button type="button" class="btn btn-danger material-icons" data-bs-toggle="modal" data-bs-target="#deleteCurrencyModal" data-currency="{{$c->name}}" data-id="{{$c->id}}" class="material-icons btn btn-danger">delete</button>
@@ -35,6 +36,38 @@
     </tr>
   @endforeach
 </table>
+<div class="modal fade" id="editCurrencyModal" tabindex="-1" aria-labelledby="editCurrencyModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editCurrencyModalLabel">Edit Currency</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form name="formEditCurrency">
+          @csrf
+          <input type="hidden" name="id">
+          <div class="mb-3">
+            <label for="name" class="form-label">Currency</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
+          <div class="mb-3">
+            <label for="code" class="form-label">Code</label>
+            <input type="text" class="form-control" id="code" name="code" required>
+          </div>
+          <div class="mb-3 form-check">
+            <input type="checkbox" class="form-check-input" id="default" name="default" value="true">
+            <label class="form-check-label" for="default" title="If this is your only currency, it will be set as default and it will be used by the system as default currency">
+                Default Currency
+                <span class="text-danger material-icons">help_center</span>
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary edit-currency">Edit</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- Modal Add Currency -->
 <div class="modal fade" id="currencyModal" tabindex="-1" aria-labelledby="currencyModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -61,7 +94,7 @@
                 <span class="text-danger material-icons">help_center</span>
             </label>
           </div>
-          <button type="submit" class="btn btn-primary">Submit</button>
+          <button type="submit" class="btn btn-primary">Create</button>
         </form>
       </div>
     </div>
@@ -87,5 +120,5 @@
     </div>
   </div>
 </div>
-@include('currencies.js');
+@include('currencies.js')
 @endsection

@@ -66,7 +66,21 @@ class CurrencyController extends Controller
      */
     public function update(Request $request, Currency $currency)
     {
-        //
+        if(self::keepOneDefault($request->default, $currency)){
+            $request->default = "true";
+        }
+        
+        $currency = Currency::loadFromRequest($request, $currency);
+        
+        Auth::user()->currencies()->save($currency);
+    
+        $response = array();
+        $response["obj"] = $currency;
+        $response["success"] = true;
+        $response["message"] = "Currency \"" . $currency->name . "\" successfully updated";
+        
+        echo json_encode($response);
+        return;
     }
 
     /**
@@ -97,15 +111,23 @@ class CurrencyController extends Controller
         echo json_encode($response);
     }
 
-    private static function keepOneDefault($default){
+    private static function keepOneDefault($default, $current = null){
         if(count(Auth::user()->currencies()->get()) == 0){
             return true;
         }
         if($default){
             $c = Auth::user()->currencies()->where("default", "=","true")->first();
-            $c->default = null;
-            Auth::user()->currencies()->save($c);
+            if($c){
+                $c->default = null;
+                Auth::user()->currencies()->save($c);
+            }
             return true;
+        }
+        if($current->default && !$default){
+            $c = Auth::user()->currencies()->where("id", "!=", $current->id)->first();
+
+            $c->default = "true";
+            Auth::user()->currencies()->save($c);
         }
         return false;
     }
