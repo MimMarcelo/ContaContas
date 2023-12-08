@@ -83,7 +83,7 @@
      * Envia dados para exclusão de Currency
      */
     $('.delete-currency').click(function(){
-        let id = $(this).data("id");
+        let id = $(this).attr("data-id");
         
         let url = url_destroy.replace(":id", id);
         console.log(url);

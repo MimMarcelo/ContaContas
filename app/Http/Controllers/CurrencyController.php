@@ -30,6 +30,10 @@ class CurrencyController extends Controller
      */
     public function store(Request $request)
     {
+        // $response = array();
+        // $response["success"] = true;
+        // $response["obj"] = $request;
+        // return json_encode($response);
         if(self::keepOneDefault($request->default)){
             $request->default = "true";
         }
@@ -123,11 +127,13 @@ class CurrencyController extends Controller
             }
             return true;
         }
-        if($current->default && !$default){
-            $c = Auth::user()->currencies()->where("id", "!=", $current->id)->first();
+        if($current){
+            if($current->default && !$default){
+                $c = Auth::user()->currencies()->where("id", "!=", $current->id)->first();
 
-            $c->default = "true";
-            Auth::user()->currencies()->save($c);
+                $c->default = "true";
+                Auth::user()->currencies()->save($c);
+            }
         }
         return false;
     }
