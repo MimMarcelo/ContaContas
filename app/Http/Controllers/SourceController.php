@@ -8,75 +8,76 @@ use Illuminate\Support\Facades\Auth;
 
 class SourceController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        $sources = Source::sources(Auth::user()->id);
-        $currencies = Auth::user()->currencies;
-        // $kinds = Source::kinds(Auth::user()->id);
-        // return view("sources.index", ["sources" => $sources, "kinds" => $kinds, "id" => Auth::user()->id]);
-        return view("sources.index", ["sources" => $sources, "currencies" => $currencies]);
-    }
+  /**
+   * Display a listing of the resource.
+   */
+  public function index()
+  {
+    $sources = Source::sources(Auth::user()->id);
+    $currencies = Auth::user()->currencies;
+    // $kinds = Source::kinds(Auth::user()->id);
+    // return view("sources.index", ["sources" => $sources, "kinds" => $kinds, "id" => Auth::user()->id]);
+    return view("sources.index", ["sources" => $sources, "currencies" => $currencies]);
+  }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //return view("sources.create");
-    }
+  /**
+   * Show the form for creating a new resource.
+   */
+  public function create()
+  {
+    //return view("sources.create");
+  }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-      // dd($request);
-        $source = Source::loadFromRequest($request);
-        //dd($source);
-        Auth::user()->sources()->save($source);
-        session()->flash('message', 'Source \''.$source->name.'\' successfully created');
-        return redirect()->route("sources.index");
-    }
+  /**
+   * Store a newly created resource in storage.
+   */
+  public function store(Request $request)
+  {
+    $source = Source::loadFromRequest($request);
+    Auth::user()->sources()->save($source);
+    $response = array();
+    $response["success"] = true;
+    $response["message"] = "Source \"" . $source->name . "\" successfully created";
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Source $source)
-    {
-        return redirect()->route("sources.index");
-    }
+    echo json_encode($response);
+  }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Source $source)
-    {
-        return view("sources.create", ["source" => $source]);
-    }
+  /**
+   * Display the specified resource.
+   */
+  public function show(Source $source)
+  {
+    return redirect()->route("sources.index");
+  }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Source $source)
-    {
-        $source = Source::loadFromRequest($request, $source);
+  /**
+   * Show the form for editing the specified resource.
+   */
+  public function edit(Source $source)
+  {
+    return view("sources.create", ["source" => $source]);
+  }
 
-        Auth::user()->sources()->save($source);
-        
-        session()->flash('message', $source->name.'\'source successfully updated');
-        return redirect()->route("sources.index");
-    }
+  /**
+   * Update the specified resource in storage.
+   */
+  public function update(Request $request, Source $source)
+  {
+    $source = Source::loadFromRequest($request, $source);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Source $source)
-    {
-        $source->delete();
-        session()->flash('message', $source->name.'\'source successfully deleted');
-        return redirect()->route("sources.index");
-    }
+    Auth::user()->sources()->save($source);
+
+    session()->flash('message', $source->name . '\'source successfully updated');
+    return redirect()->route("sources.index");
+  }
+
+  /**
+   * Remove the specified resource from storage.
+   */
+  public function destroy(Source $source)
+  {
+    $source->delete();
+    session()->flash('message', $source->name . '\'source successfully deleted');
+    return redirect()->route("sources.index");
+  }
 }
