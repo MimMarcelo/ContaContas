@@ -13,7 +13,7 @@ class CurrencyController extends Controller
      */
     public function index()
     {
-        $currencies = Currency::all();
+        $currencies = Auth::user()->currencies;
         return view("currencies.index", ["currencies" => $currencies]);
     }
 
