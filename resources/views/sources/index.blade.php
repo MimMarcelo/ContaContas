@@ -28,21 +28,21 @@
                 <td>{{$s->resume}}</td>
                 <td>
                     <a href="{{route('sources.edit', $s->id)}}" 
-                        class="material-symbols-outlined btn btn-warning">edit</a>
+                        class="material-symbols-outlined filled btn btn-warning">edit</a>
                 </td>
                 <td>
                     <form action="{{route('sources.destroy', $s->id)}}" method="POST">
                         @csrf
                         @method("DELETE")
                         <input type="submit" value="delete"
-                            class="material-symbols-outlined btn btn-danger">
+                            class="material-symbols-outlined filled btn btn-danger">
                     </form>
                 </td>
             </tr>
         @endforeach
     </table>
     <button type="button" title="Add new Source" id="add"
-        class="fixed-bottom btn btn-primary fixed-button material-symbols-outlined"
+        class="fixed-bottom btn btn-primary fixed-button material-symbols-outlined filled"
         data-bs-toggle="modal" data-bs-target="#myModal">
         add
     </button>

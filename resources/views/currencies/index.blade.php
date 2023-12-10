@@ -27,11 +27,18 @@
       <td>{{$c->code}}</td>
       <td>{{$c->default}}</td>
       <td>
-        <button type="button" class="btn btn-info material-icons" data-bs-toggle="modal" data-bs-target="#editCurrencyModal" data-name="{{$c->name}}" data-code="{{$c->code}}" data-default="{{$c->default}}" data-id="{{$c->id}}" class="material-icons btn btn-danger">edit</button>
-        {{-- <a href="{{route('currencies.edit', $c)}}" class="material-icons btn btn-warning">edit</a> --}}
+        <button type="button" class="btn btn-info material-symbols-outlined filled"
+          data-bs-toggle="modal" data-bs-target="#editCurrencyModal" 
+          data-name="{{$c->name}}" data-code="{{$c->code}}" data-default="{{$c->default}}" data-id="{{$c->id}}">
+          edit
+        </button>
       </td>
       <td>
-        <button type="button" class="btn btn-danger material-icons" data-bs-toggle="modal" data-bs-target="#deleteCurrencyModal" data-currency="{{$c->name}}" data-id="{{$c->id}}" class="material-icons btn btn-danger">delete</button>
+        <button type="button" class="btn btn-danger material-symbols-outlined filled" 
+          data-bs-toggle="modal" data-bs-target="#deleteCurrencyModal" 
+          data-currency="{{$c->name}}" data-id="{{$c->id}}">
+          delete
+        </button>
       </td>
     </tr>
   @endforeach
@@ -59,7 +66,7 @@
             <input type="checkbox" class="form-check-input" id="default" name="default" value="true">
             <label class="form-check-label" for="default" title="If this is your only currency, it will be set as default and it will be used by the system as default currency">
                 Default Currency
-                <span class="text-danger material-icons">help_center</span>
+                <span class="text-danger material-symbols-outlined filled">help_center</span>
             </label>
           </div>
           <button type="submit" class="btn btn-primary edit-currency">Edit</button>
@@ -91,7 +98,7 @@
             <input type="checkbox" class="form-check-input" id="default" name="default" value="true">
             <label class="form-check-label" for="default" title="If this is your only currency, it will be set as default and it will be used by the system as default currency">
                 Default Currency
-                <span class="text-danger material-icons">help_center</span>
+                <span class="text-danger material-symbols-outlined filled">help_center</span>
             </label>
           </div>
           <button type="submit" class="btn btn-primary">Create</button>
