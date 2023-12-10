@@ -31,7 +31,6 @@
         let checkbox = modal.find('input:checkbox');
 
         $(checkbox).prop("checked", false);
-        //$(checkbox).prop("disabled", false);
         
         fields.forEach(f => {
             modal.find('input[name="'+f+'"]').val(caller.data(f));
@@ -39,7 +38,6 @@
         
         if(caller.data("default")){
             $(checkbox).prop("checked", true);
-            //$(checkbox).prop("disabled", true);
         }
     });
 
@@ -52,7 +50,6 @@
         let id = $(this).find('input[name="id"]').val();
         
         let url = url_update.replace(":id", id);
-        // console.log(url);
 
         $.ajax({
             url: url,

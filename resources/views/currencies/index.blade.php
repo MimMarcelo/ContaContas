@@ -1,6 +1,6 @@
 @extends('layouts.master')
 
-@section('title', 'Home')
+@section('title', 'Currencies')
 
 @section('content')
 <!-- Button trigger modal -->
