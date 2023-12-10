@@ -9,14 +9,18 @@ use Illuminate\Support\Facades\DB;
 class Source extends Base
 {
     public $fillable = [
-        'kind',
-        'name'
+        'name',
+        'code',
+        'group',
+        'currency_id',
+        'cc',
+        'resume'
     ];
 
-    public function bills(): HasMany
-    {
-        return $this->hasMany(Bills::class);
-    }
+    // public function bills(): HasMany
+    // {
+    //     return $this->hasMany(Bills::class);
+    // }
 
     public function user(): BelongsTo
     {
@@ -27,18 +31,19 @@ class Source extends Base
     {
         return DB::table("sources")
                 ->where("user_id", "=", $user_id)
-                ->orderBy("kind")
+                ->orderBy("cc")
+                ->orderBy("group")
                 ->orderBy("name")
                 ->get();
     }
 
-    public static function kinds($user_id)
-    {
-        return DB::table("sources")
-                ->select("kind")
-                ->where("user_id", "=", $user_id)
-                ->distinct()
-                ->orderBy("kind")
-                ->get();
-    }
+    // public static function kinds($user_id)
+    // {
+    //     return DB::table("sources")
+    //             ->select("kind")
+    //             ->where("user_id", "=", $user_id)
+    //             ->distinct()
+    //             ->orderBy("kind")
+    //             ->get();
+    // }
 }

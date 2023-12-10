@@ -14,8 +14,10 @@ class SourceController extends Controller
     public function index()
     {
         $sources = Source::sources(Auth::user()->id);
-        $kinds = Source::kinds(Auth::user()->id);
-        return view("sources.index", ["sources" => $sources, "kinds" => $kinds, "id" => Auth::user()->id]);
+        $currencies = Auth::user()->currencies;
+        // $kinds = Source::kinds(Auth::user()->id);
+        // return view("sources.index", ["sources" => $sources, "kinds" => $kinds, "id" => Auth::user()->id]);
+        return view("sources.index", ["sources" => $sources, "currencies" => $currencies]);
     }
 
     /**
@@ -23,7 +25,7 @@ class SourceController extends Controller
      */
     public function create()
     {
-        return view("sources.create");
+        //return view("sources.create");
     }
 
     /**
@@ -31,7 +33,9 @@ class SourceController extends Controller
      */
     public function store(Request $request)
     {
+      // dd($request);
         $source = Source::loadFromRequest($request);
+        //dd($source);
         Auth::user()->sources()->save($source);
         session()->flash('message', 'Source \''.$source->name.'\' successfully created');
         return redirect()->route("sources.index");
