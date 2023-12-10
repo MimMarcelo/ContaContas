@@ -77,7 +77,9 @@ class SourceController extends Controller
   public function destroy(Source $source)
   {
     $source->delete();
-    session()->flash('message', $source->name . '\'source successfully deleted');
-    return redirect()->route("sources.index");
+    $response = array();
+    $response["success"] = true;
+    $response["message"] = "Source \"" . $source->name . "\" successfully deleted";
+    echo json_encode($response);
   }
 }
