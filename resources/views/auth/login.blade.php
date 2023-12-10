@@ -21,10 +21,10 @@
   </div>
 
   <!-- Remember Me -->
-  <div class="form-check form-switch">
+  {{-- <div class="form-check form-switch">
     <input id="remember_me" type="checkbox" class="form-check-input" name="remember">
     <label for="remember_me" class="form-check-label">Remember me</label>
-  </div>
+  </div> --}}
   <input type="submit" class="btn btn-primary" value="Log in">
 
 </form>
@@ -34,5 +34,6 @@
       Forgot your password?
     </a>
   @endif
+  <a class="d-block" href="{{ url('/register') }}">Don't have account, create it!</a>
 </div>
 @endsection
