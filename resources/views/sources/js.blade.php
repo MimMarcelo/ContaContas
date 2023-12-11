@@ -24,45 +24,56 @@
     /***
      * Abre popup para editar Currency
      */
-    // $("#editCurrencyModal").on('shown.bs.modal', function(event) {
-    //     let caller = $(event.relatedTarget);
-    //     let fields = ['name', 'code', 'id'];
-    //     let modal = $(this);
-    //     let checkbox = modal.find('input:checkbox');
+    $("#editSourceModal").on('shown.bs.modal', function(event) {
+        let caller = $(event.relatedTarget);
+        let fields = ['name', 'code', 'group', 'currency', 'id'];
+        let checks = ['cc', 'resume'];
+        let modal = $(this);
 
-    //     $(checkbox).prop("checked", false);
+        fields.forEach(f => {
+          modal.find('input[name="' + f + '"]').val(caller.data(f));
+        });
 
-    //     fields.forEach(f => {
-    //         modal.find('input[name="' + f + '"]').val(caller.data(f));
-    //     });
+        //Limpa marcação dos checkboxes
+        modal.find('input:checkbox').prop("checked", false);
+        checks.forEach(f => {
+          if(caller.data(f)) 
+            modal.find('input[name="' + f + '"]').prop("checked", true);
+        });
 
-    //     if (caller.data("default")) {
-    //         $(checkbox).prop("checked", true);
-    //     }
-    // });
+        if(modal.has("select")){
+          let select = modal.find("select");
+          select.children().each(function(){
+            $(this).prop("selected", false);
+            if($(this).attr("value") == caller.data("currency")){
+              $(this).prop("selected", true);
+            }
+          });
+        }
+    });
 
     /***
      * Envia dados para edição de Currency
      */
-    // $('form[name="formEditCurrency"]').submit(function(e) {
-    //     e.preventDefault();
+    $('form[name="formEditSource"]').submit(function(e) {
+        e.preventDefault();
 
-    //     let id = $(this).find('input[name="id"]').val();
+        let id = $(this).find('input[name="id"]').val();
 
-    //     let url = url_update.replace(":id", id);
+        let url = url_update.replace(":id", id);
 
-    //     $.ajax({
-    //         url: url,
-    //         type: "put",
-    //         data: $(this).serialize(),
-    //         dataType: "json",
-    //         success: function(response) {
-    //             console.log(response.obj);
-    //             message(response, ".table");
-    //             $("#editCurrencyModal").modal('toggle');
-    //         }
-    //     });
-    // });
+        $.ajax({
+            url: url,
+            type: "put",
+            data: $(this).serialize(),
+            dataType: "json",
+            success: function(response) {
+                console.log(response.obj);
+                message(response, ".table");
+                $("#editSourceModal").modal('toggle');
+            }
+        });
+    });
 
     /***
      * Abre popup para confirmar exclusão de Currency

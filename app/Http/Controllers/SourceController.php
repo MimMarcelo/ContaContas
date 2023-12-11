@@ -63,12 +63,21 @@ class SourceController extends Controller
    */
   public function update(Request $request, Source $source)
   {
+    if($request->cc)
+      $request->cc = "true";
+    if($request->resume)
+      $request->resume = "true";
+    
     $source = Source::loadFromRequest($request, $source);
 
     Auth::user()->sources()->save($source);
 
-    session()->flash('message', $source->name . '\'source successfully updated');
-    return redirect()->route("sources.index");
+    $response = array();
+        $response["obj"] = $source;
+        $response["success"] = true;
+        $response["message"] = "Source \"" . $source->name . "\" successfully updated";
+        
+        echo json_encode($response);
   }
 
   /**

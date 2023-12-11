@@ -31,7 +31,7 @@ class Source extends Base
     {
         return DB::table("sources")
                 ->where("user_id", "=", $user_id)
-                ->orderBy("cc")
+                ->orderByDesc("cc")
                 ->orderBy("group")
                 ->orderBy("name")
                 ->get();

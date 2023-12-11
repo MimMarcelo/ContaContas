@@ -23,12 +23,25 @@
       <td>{{$s->name}}</td>
       <td>{{$s->code}}</td>
       <td>{{$s->group}}</td>
-      <td>{{$s->currency_id}}</td>
+      <td>
+        @foreach($currencies as $c)
+          @if ($c->id == $s->currency_id)
+              <span title="{{$c->name}}">
+                {{$c->code}}
+              </span>
+              @break
+          @endif
+        @endforeach
+      </td>
       <td>{{$s->cc}}</td>
       <td>{{$s->resume}}</td>
       <td>
-        <a href="{{route('sources.edit', $s->id)}}" 
-          class="material-symbols-outlined filled btn btn-warning">edit</a>
+        <button type="button" class="btn btn-info material-symbols-outlined filled"
+          data-bs-toggle="modal" data-bs-target="#editSourceModal" 
+          data-name="{{$s->name}}" data-code="{{$s->code}}" data-group="{{$s->group}}" data-id="{{$s->id}}"
+          data-currency="{{$s->currency_id}}" data-cc="{{$s->cc}}" data-resume="{{$s->resume}}">
+          edit
+        </button>
       </td>
       <td>
         <button type="button" class="btn btn-danger material-symbols-outlined filled" 
@@ -41,7 +54,7 @@
   @endforeach
 </table>
 <button type="button" title="Add new Source" id="add"
-  class="fixed-bottom btn btn-primary fixed-button material-symbols-outlined filled"
+  class="fixed-bottom btn btn-primary material-symbols-outlined filled fixed-button"
   data-bs-toggle="modal" data-bs-target="#createSourceModal">
   add
 </button>
@@ -54,7 +67,6 @@
       </div>
       <div class="modal-body">
         <form name="formCreateSource">
-          {{-- action="{{route('sources.store')}}" method="POST"> --}}
           @csrf
           <div class="form-group">
             <label for="name" class="form-label">Source</label>
@@ -109,6 +121,55 @@
         <button data-id="0" class="btn btn-danger delete-source">
           Yes
         </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="editSourceModal" tabindex="-1" aria-labelledby="editSourceModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="editSourceModalLabel">Edit Source</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form name="formEditSource">
+          @csrf
+          <input type="hidden" name="id">
+          <div class="form-group">
+            <label for="editName" class="form-label">Source</label>
+            <input type="text" class="form-control" id="editName" name="name" required>
+          </div>
+          <div class="form-group">
+            <label for="editCode" class="form-label">Code</label>
+            <input type="text" class="form-control" id="editCode" name="code" required>
+          </div>
+          <div class="form-group">
+            <label for="editGroup" class="form-label">Group</label>
+            <input type="text" class="form-control" id="editGroup" name="group" required>
+          </div>
+          <div class="form-group">
+            <label for="editCurrency" class="form-label">Currency</label>
+            <select type="text" class="form-control" id="editCurrency" name="currency_id">
+              @foreach ($currencies as $c)
+                  <option value="{{$c->id}}">{{$c->code}}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="form-check form-switch">
+            <input type="checkbox" class="form-check-input" id="editCC" name="cc" value="true">
+            <label class="form-check-label" for="editCC">
+                Credit Card?
+            </label>
+          </div>
+          <div class="form-check form-switch">
+            <input type="checkbox" class="form-check-input" id="editResume" name="resume" value="true">
+            <label class="form-check-label" for="editResume">
+                Resume?
+            </label>
+          </div>
+          <button type="submit" class="btn btn-primary edit-source">Edit</button>
+        </form>
       </div>
     </div>
   </div>
