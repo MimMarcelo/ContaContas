@@ -39,7 +39,7 @@
         <button type="button" class="btn btn-info material-symbols-outlined filled"
           data-bs-toggle="modal" data-bs-target="#editSourceModal" 
           data-name="{{$s->name}}" data-code="{{$s->code}}" data-group="{{$s->group}}" data-id="{{$s->id}}"
-          data-currency="{{$s->currency_id}}" data-cc="{{$s->cc}}" data-resume="{{$s->resume}}">
+          data-currency_id="{{$s->currency_id}}" data-cc="{{$s->cc}}" data-resume="{{$s->resume}}">
           edit
         </button>
       </td>
@@ -106,7 +106,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="deleteSourceModal" tabindex="-1" aria-labelledby="deleteSourceModalLabel" aria-hidden="true">
+<div class="modal modal-delete fade" id="deleteSourceModal" tabindex="-1" aria-labelledby="deleteSourceModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -114,7 +114,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <h5></h5>
+          <h5>Are you sure to delete "<span class="name-to-delete"></span>" source?</h5>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
@@ -125,7 +125,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="editSourceModal" tabindex="-1" aria-labelledby="editSourceModalLabel" aria-hidden="true">
+<div class="modal modal-edit fade" id="editSourceModal" tabindex="-1" aria-labelledby="editSourceModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -150,7 +150,7 @@
           </div>
           <div class="form-group">
             <label for="editCurrency" class="form-label">Currency</label>
-            <select type="text" class="form-control" id="editCurrency" name="currency_id">
+            <select class="form-control" id="editCurrency" name="currency_id">
               @foreach ($currencies as $c)
                   <option value="{{$c->id}}">{{$c->code}}</option>
               @endforeach

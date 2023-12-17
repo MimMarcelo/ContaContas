@@ -8,6 +8,8 @@
      */
     $('form[name="formCurrency"]').submit(function(e){
         e.preventDefault();
+        let modal = $(this).parents(".modal");
+        let form = $(this);
         $.ajax({
             url: "{{route('currencies.store')}}",
             type: "post",
@@ -15,38 +17,18 @@
             dataType: "json",
             success: function(response){
                 message(response, ".table");
-                $("#currencyModal").modal('toggle');
-                $('form[name="formCurrency"]').trigger("reset");
+                $(modal).modal('toggle');
+                $(form).trigger("reset");
             }
         });
     });
     
     /***
-     * Abre popup para editar Currency
-     */
-     $("#editCurrencyModal").on('shown.bs.modal', function (event) {
-        let caller = $(event.relatedTarget);
-        let fields = ['name', 'code', 'id'];
-        let modal = $(this);
-        let checkbox = modal.find('input:checkbox');
-
-        $(checkbox).prop("checked", false);
-        
-        fields.forEach(f => {
-            modal.find('input[name="'+f+'"]').val(caller.data(f));
-        });
-        
-        if(caller.data("default")){
-            $(checkbox).prop("checked", true);
-        }
-    });
-
-    /***
-     * Envia dados para edição de Currency
+     * Envia dados para editar de Currency
      */
      $('form[name="formEditCurrency"]').submit(function(e){
         e.preventDefault();
-        
+        let modal = $(this).parents(".modal");
         let id = $(this).find('input[name="id"]').val();
         
         let url = url_update.replace(":id", id);
@@ -57,34 +39,21 @@
             data: $(this).serialize(),
             dataType: "json",
             success: function(response){
-                console.log(response.obj);
                 message(response, ".table");
-                $("#editCurrencyModal").modal('toggle');
+                $(modal).modal('toggle');
             }
         });        
     });
 
     /***
-     * Abre popup para confirmar exclusão de Currency
-     */
-    $("#deleteCurrencyModal").on('shown.bs.modal', function (event) {
-        let caller = $(event.relatedTarget);
-        let currencyName = caller.data('currency');
-        let currencyId = caller.data('id');
-        let modal = $(this);
-        modal.find('.modal-body h5').text("Are you sure to delete \"" + currencyName + "\" currency?");
-        modal.find('.modal-footer .delete-currency').attr("data-id", currencyId);
-    });
-
-    /***
-     * Envia dados para exclusão de Currency
+     * Envia dados para excluir Currency
      */
     $('.delete-currency').click(function(){
         let id = $(this).attr("data-id");
+        let modal = $(this).parents(".modal");
         
         let url = url_destroy.replace(":id", id);
-        console.log(url);
-
+        
         $.ajax({
             url: url,
             type: "delete",
@@ -92,7 +61,7 @@
             dataType: "json",
             success: function(response){
                 message(response, ".table");
-                $("#deleteCurrencyModal").modal('toggle');
+                $(modal).modal('toggle');
             }
         });        
     });

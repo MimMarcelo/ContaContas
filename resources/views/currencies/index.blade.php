@@ -4,7 +4,7 @@
 
 @section('content')
 <!-- Button trigger modal -->
-<button type="button" id="btn-open-modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#currencyModal">
+<button type="button" id="btn-open-modal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCurrencyModal">
   Add Currency
 </button>
 <table class="table">
@@ -36,14 +36,14 @@
       <td>
         <button type="button" class="btn btn-danger material-symbols-outlined filled" 
           data-bs-toggle="modal" data-bs-target="#deleteCurrencyModal" 
-          data-currency="{{$c->name}}" data-id="{{$c->id}}">
+          data-name="{{$c->name}}" data-id="{{$c->id}}">
           delete
         </button>
       </td>
     </tr>
   @endforeach
 </table>
-<div class="modal fade" id="editCurrencyModal" tabindex="-1" aria-labelledby="editCurrencyModalLabel" aria-hidden="true">
+<div class="modal modal-edit fade" id="editCurrencyModal" tabindex="-1" aria-labelledby="editCurrencyModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -76,7 +76,7 @@
   </div>
 </div>
 <!-- Modal Add Currency -->
-<div class="modal fade" id="currencyModal" tabindex="-1" aria-labelledby="currencyModalLabel" aria-hidden="true">
+<div class="modal fade" id="createCurrencyModal" tabindex="-1" aria-labelledby="currencyModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -108,7 +108,7 @@
   </div>
 </div>
 
-<div class="modal fade" id="deleteCurrencyModal" tabindex="-1" aria-labelledby="deleteCurrencyModalLabel" aria-hidden="true">
+<div class="modal modal-delete fade" id="deleteCurrencyModal" tabindex="-1" aria-labelledby="deleteCurrencyModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -116,7 +116,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-          <h5></h5>
+          <h5>Are you sure to delete "<span class="name-to-delete"></span>" currency?</h5>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
